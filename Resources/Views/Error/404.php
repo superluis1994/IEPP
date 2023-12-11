@@ -1,0 +1,3 @@
+<?php
+
+echo "ERROR PAGINA NO ENCONTRADA";
