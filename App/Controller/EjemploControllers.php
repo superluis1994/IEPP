@@ -12,7 +12,7 @@ class EjemploControllers extends Token{
       $this->header = "Ejemplos";
    }
    public function index(){
-    return Utils::view('Ejemplo.index',$data=[],$this->header);
+    return Utils::view('Login.index',$data=[],$this->header);
  }
    /**SE ENCARGA DE CARGAR LOS DATOS */
     public function loadMsg()

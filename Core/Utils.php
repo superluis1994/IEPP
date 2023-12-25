@@ -6,7 +6,6 @@ use Core\App;
 
 class Utils
 {
-
     // este se utiliza para los enlaces o redireciones en las view 
     static function url($path =  "")
     {
