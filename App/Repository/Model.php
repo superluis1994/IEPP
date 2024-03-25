@@ -2,14 +2,14 @@
 
 namespace app\Repository;
 
-use app\Repository\Orm;
-use app\Setting\Conexion;
+use App\Repository\Orm;
+use App\Setting\Conexion;
 
 class Model extends Conexion implements Orm
 {
    protected $Tabla;
 
-   private array $Value=[];
+   private array $Value = [];
 
    private array $ValuesWhereOr = [];
 
@@ -29,15 +29,16 @@ class Model extends Conexion implements Orm
       self::$Query = "SELECT * FROM $Tabla";
       return $this;
    }
- 
+
    public function QueryEspefico(array $campo)
    {
       self::$Query = "SELECT ";
-      foreach($campo as $key=>$value){
-       self::$Query .=$value.",";
+      foreach ($campo as $key => $value) {
+         self::$Query .= $value . ",";
       }
       self::$Query = rtrim(self::$Query, ",");
-      self::$Query.=" FROM ".$this->Tabla . " $this->alias";
+      self::$Query .= " FROM " . $this->Tabla . " $this->alias";
+      // echo self::$Query;
       return $this;
    }
 
@@ -56,15 +57,36 @@ class Model extends Conexion implements Orm
 ====================================*/
    public function Where(string $atributo, $operador, $valor)
    {
-      self::$Query .= " WHERE $atributo $operador ?";
+      self::$Query .= " WHERE $atributo $operador :" . $atributo;
 
       $this->Value[] = [
          "campo" => $atributo,
          "value" => $valor
       ];
-   //  echo $valor;
-//   echo self::$Query;
+      //  echo $valor;
+      //   echo self::$Query;
       return $this;
+   }
+
+   public function Singlefirst()
+   {
+      try {
+         self::$Pps = self::getConexion_()->prepare(self::$Query);
+         //   self::$Pps->bindParam(1,$this->Value);
+         foreach ($this->Value as $key => $value) {
+            self::$Pps->bindParam(":" . $value['campo'], $value['value']);
+         }
+         self::$Pps->execute();
+
+         if (self::$Pps->rowCount() > 0) {
+            return self::$Pps->fetchAll(\PDO::FETCH_OBJ)[0];
+         }
+         return [];
+      } catch (\Throwable $th) {
+         echo $th->getMessage();
+      } finally {
+         self::closeConexionBD();
+      }
    }
 
    /*==================================
@@ -74,8 +96,8 @@ class Model extends Conexion implements Orm
    {
       self::$Query .= " WHERE ";
       foreach ($datos as $atributo => $value) {
-         self::$Query .= $value['atributo'] . " " . $value['condicion'] . " :" . str_replace('.', '',$value['atributo']) . " " . $value['operador'] . " ";
-         $valor=str_replace('.', '', $value['atributo']);
+         self::$Query .= $value['atributo'] . " " . $value['condicion'] . " :" . str_replace('.', '', $value['atributo']) . " " . $value['operador'] . " ";
+         $valor = str_replace('.', '', $value['atributo']);
          $this->Value[] = [
             "campo" => $valor,
             "value" => $value['value']
@@ -96,13 +118,12 @@ class Model extends Conexion implements Orm
          foreach ($this->Value as $key => $value) {
             self::$Pps->bindParam(":" . $value['campo'], $value['value']);
          }
-       
+
          self::$Pps->execute();
 
          if (self::$Pps->rowCount() > 0) {
             // return self::$Pps->fetchAll(\PDO::FETCH_OBJ);
             return self::$Pps->fetchAll();
-
          }
          return [];
          unset($this->Value);
@@ -112,29 +133,7 @@ class Model extends Conexion implements Orm
          self::closeConexionBD();
       }
    }
-    public function Singlefirst()
-    {
-       try {
-         echo "<pre>";
-      echo var_dump($this->Value);
-      echo "</pre>";
-           self::$Pps = self::getConexion_()->prepare(self::$Query);
-         //   self::$Pps->bindParam(1,$this->Value);
-         foreach ($this->Value as $key => $value) {
-            
-            self::$Pps->bindParam(1, $value['value']);
-         }
-           self::$Pps->execute();
 
-           if(self::$Pps->rowCount() > 0)
-           {
-            return self::$Pps->fetchAll(\PDO::FETCH_OBJ)[0];
-           }
-           return [];
-          } catch (\Throwable $th) {
-            echo $th->getMessage();
-          }finally{self::closeConexionBD();}
-    }
 
    public function get()
    {
@@ -163,10 +162,10 @@ class Model extends Conexion implements Orm
 
    public function MultJoin(array $datos)
    {
-     
-      foreach ($datos as $key=>$value){
 
-      self::$Query .= " INNER JOIN ".$value["tablaFk"]." ON ".$value["tablaPk"].".".$value["pk"]." = ".$value["tablaFk"].".".$value["fk"];
+      foreach ($datos as $key => $value) {
+
+         self::$Query .= " INNER JOIN " . $value["tablaFk"] . " ON " . $value["tablaPk"] . "." . $value["pk"] . " = " . $value["tablaFk"] . "." . $value["fk"];
       }
       // echo self::$Query;
       return $this;
@@ -193,44 +192,86 @@ class Model extends Conexion implements Orm
    //// INSERT INTO TABLA(atributo1,atributo2) VALUES(:atributo1,:atributo2)
    /// bindParam | bindValue
 
+   // public function Insert(array $datos)
+   // {
+   //    $this->Tabla = str_replace($this->alias, "", $this->Tabla);
+
+   //    self::$Query = "INSERT INTO $this->Tabla(";
+
+   //    foreach ($datos as $key => $value) {
+   //       self::$Query .= $key . ",";
+   //    }
+
+
+
+   //    self::$Query = rtrim(self::$Query, ",") . ") VALUES(";
+
+   //    foreach ($datos as $key => $value) {
+   //       self::$Query .= " :$key" . ",";
+   //    }
+
+   //    /// eliminamos la ultima coma
+
+   //    self::$Query = rtrim(self::$Query, ",") . ")";
+   //    echo self::$Query;
+   //    try {
+   //       self::$Pps = self::getConexion_()->prepare(self::$Query);
+
+   //       foreach ($datos as $key => $value) {
+
+   //          self::$Pps->bindValue(":" . $key, $value);
+   //       }
+
+
+   //       return self::$Pps->execute(); /// 0 | 1
+   //    } catch (\Throwable $th) {
+   //       return $th->getMessage();
+   //    } finally {
+   //       self::closeConexionBD();
+   //    }
+   // }
+
+
    public function Insert(array $datos)
    {
-      $this->Tabla = str_replace($this->alias, "", $this->Tabla);
-      
-      self::$Query = "INSERT INTO $this->Tabla(";
-      
-      foreach ($datos as $key => $value) {
-         self::$Query .= $key . ",";
-      }
-      
-  
+       $this->Tabla = str_replace($this->alias, "", $this->Tabla);
 
-      self::$Query = rtrim(self::$Query, ",") . ") VALUES(";
+       self::$Query = "INSERT INTO $this->Tabla(";
 
-      foreach ($datos as $key => $value) {
-         self::$Query .= " :$key" . ",";
-      }
+       foreach ($datos as $key => $value) {
+           self::$Query .= $key . ",";
+       }
 
-      /// eliminamos la ultima coma
+       self::$Query = rtrim(self::$Query, ",") . ") VALUES(";
 
-      self::$Query = rtrim(self::$Query, ",") . ")";
-       echo self::$Query;
-      try {
-         self::$Pps = self::getConexion_()->prepare(self::$Query);
+       foreach ($datos as $key => $value) {
+           self::$Query .= " :$key" . ",";
+       }
 
-         foreach ($datos as $key => $value) {
-            
-            self::$Pps->bindValue(":".$key, $value);
-         }
-     
+       self::$Query = rtrim(self::$Query, ",") . ")";
 
-         return self::$Pps->execute(); /// 0 | 1
-      } catch (\Throwable $th) {
-         return $th->getMessage();
-      } finally {
-         self::closeConexionBD();
-      }
+       try {
+           self::$Pps = self::getConexion_()->prepare(self::$Query);
+
+           foreach ($datos as $key => $value) {
+               self::$Pps->bindValue(":" . $key, $value);
+           }
+
+           if (self::$Pps->execute()) {
+               // Retrieve the last inserted ID using PDO's lastInsertId() method
+               $insertedId = self::getConexion_()->lastInsertId();
+               return $insertedId;
+           } else {
+               return false; // Or handle the error differently
+           }
+       } catch (\Throwable $th) {
+           return $th->getMessage();
+       } finally {
+           self::closeConexionBD();
+       }
    }
+
+
 
    /// Método Update => UPDATE estudiante set nombres=:nombres,apellidos=:apellidos where id_estudiante=:id_estudiante
 

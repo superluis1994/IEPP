@@ -1,5 +1,6 @@
 # Habilitar Ia reescritura de URL
 RewriteEngine On
+php_value session.auto_start 1
 #Redireccionamiento de las solicitudes a index. php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

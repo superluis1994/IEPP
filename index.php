@@ -1,7 +1,7 @@
 <?php
 spl_autoload_register(function ($class) {
     // Cargar la clase desde el directorio `core/`
-    // echo $class."<br>";
+    $class = str_replace("\\", "/", $class);
     if (file_exists($class. '.php')) {
         require_once $class . '.php';
     }

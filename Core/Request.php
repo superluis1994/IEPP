@@ -96,6 +96,6 @@ class Request{
 
               // echo "404";
               // tomar en cuenta que error.404 esto quiere decir que la pagina 404 va estar dentro de la carpeta error
-              return Utils::view('Error.404');
+              return Utils::view('Error.404',$Data=[],$header=["Error",""]);
        }
 }
