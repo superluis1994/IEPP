@@ -1,24 +1,29 @@
+<?php
+// session_destroy();
+// echo var_dump($_SESSION['datos']); 
+
+?>
 <!doctype html>
 <html lang="es" dir="ltr">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?=$header[1]?></title>
+    <title><?=$data["titulo"]?></title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="<?=$utils->assets('Img/favicon.ico'); ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= $data["icono"] ?>" type="image/x-icon">
     <!-- Library / Plugin Css Build -->
-    <link rel="stylesheet" href="<?=$utils->assets('Css/libs.min.css'); ?>" />
+    <link rel="stylesheet" href="<?= $utils->assets('Css/libs.min.css'); ?>" />
     <!-- Hope Ui Design System Css -->
-    <link rel="stylesheet" href="<?=$utils->assets('Css/hope-ui.min.css'); ?>" />
+    <link rel="stylesheet" href="<?= $utils->assets('Css/hope-ui.min.css'); ?>" />
     <!-- Custom Css -->
-    <link rel="stylesheet" href="<?=$utils->assets('Css/custom.min.css'); ?>" />
+    <link rel="stylesheet" href="<?= $utils->assets('Css/custom.min.css'); ?>" />
     <!-- Dark Css -->
-    <link rel="stylesheet" href="<?=$utils->assets('Css/dark.min.css'); ?>" />
+    <link rel="stylesheet" href="<?= $utils->assets('Css/dark.min.css'); ?>" />
     <!-- Customizer Css -->
-    <link rel="stylesheet" href="<?=$utils->assets('Css/customizer.min.css'); ?>" />
+    <link rel="stylesheet" href="<?= $utils->assets('Css/customizer.min.css'); ?>" />
     <!-- RTL Css -->
-    <link rel="stylesheet" href="<?=$utils->assets('Css/rtl.min.css'); ?>" />
+    <link rel="stylesheet" href="<?= $utils->assets('Css/rtl.min.css'); ?>" />
 </head>
 
 <body class=" " data-bs-spy="scroll" data-bs-target="#elements-section" data-bs-offset="0" tabindex="0">
@@ -29,7 +34,6 @@
         </div>
     </div>
     <!-- loader END -->
-
     <div class="wrapper">
         <section class="login-content">
             <div class="row m-0 align-items-center bg-white vh-100">
@@ -38,53 +42,33 @@
                         <div class="col-md-10">
                             <div class="card card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                                 <div class="card-body">
-
                                     <div class="d-flex justify-content-center mb-3">
-                                    <a href="#" class="navbar-brand d-flex align-items-center mb-3">
-                                        <!--Logo start-->
-                                        <!--logo End-->
-
-                                        <!--Logo start-->
-                                        <div class="logo-main">
-                                            <div class="logo-normal">
-                                                <img src="<?= $utils->assets('Img/auth/Logo_IEPP.png'); ?>" class="text-primary" width="150" alt="Your Logo Description">
-                                                <!-- <svg class="text-primary icon-30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="-0.657324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor" />
-                                                    <rect x="6.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor" />
-                                                    <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
-                                                    <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
-                                                </svg> -->
-
+                                        <a href="#" class="navbar-brand d-flex align-items-center mb-3">
+                                            <!--Logo start-->
+                                            <div class="logo-main">
+                                                <div class="logo-normal">
+                                                    <img src="<?= $utils->assets('Img/auth/Logo_IEPP.webp'); ?>" class="text-primary" width="150" alt="Your Logo Description">
+                                                </div>
                                             </div>
-                                            <!-- <div class="logo-mini">
-                                                <svg class="text-primary icon-30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="-0.757324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor" />
-                                                    <rect x="7.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor" />
-                                                    <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
-                                                    <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
-                                                </svg>
-                                            </div> -->
-                                        </div>
-                                        <!--logo End-->
-                                        <!-- <h4 class="logo-title ms-3"><?= $_ENV["TITULO_APP"] ?></h4> -->
-                                    </a>
-                                </div>
-
-                                    
+                                            <!--logo End-->
+                                        </a>
+                                    </div>
                                     <h2 class="mb-2 text-center">Iniciar Sesión</h2>
                                     <p class="text-center">Bienvenido al inicio de sesion de la <?= $_ENV["TITULO_APP"] ?>.</p>
-                                    <form method="$_POST" id="formAccerder" autocomplete="off">
+                                    <form method="POST" id="formAccerder" autocomplete="off" data-fetch-url="<?php echo htmlspecialchars($data["url"]["form"]) ?>">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="form-group">
                                                     <label for="Dui" class="form-label">DUI</label>
-                                                    <input type="text" class="form-control" name="dui" id="dui" aria-describedby="Dui" placeholder="000000000">
+                                                    <input type="text" class="form-control" name="dui" id="dui" aria-describedby="Dui" placeholder="000000000" 
+                                                    oninvalid="this.setCustomValidity('Por favor, ingresa un DUI de 9 dígitos sin guion')" oninput="this.setCustomValidity('')" required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="form-group">
                                                     <label for="password" class="form-label">Contraseña</label>
-                                                    <input type="password" class="form-control" name="password" id="password" aria-describedby="password" placeholder=" ">
+                                                    <input type="password" class="form-control" name="password" id="password" aria-describedby="password" placeholder="" 
+                                                    oninvalid="this.setCustomValidity('Por favor, ingresa tu contraseña')" oninput="this.setCustomValidity('')" required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 col-12 d-flex justify-content-center">
@@ -94,13 +78,19 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 col-12 d-flex justify-content-center mb-2">
-                                                <a href="recoverpw.html">¿Ha olvidado tu contraseña?</a>
+                                                <a href="#" data-fetch-url="<?php echo htmlspecialchars($data["url"]["resetPassword"]) ?>">¿Ha olvidado tu contraseña?</a>
                                             </div>
-                                            <div class="d-flex justify-content-center">
+                                            <!-- <div class="d-flex justify-content-center">
                                                 <button type="submit" onclick="formularioEnvio('<?= $utils->url('/Auth/acceder'); ?>','formAccerder')" id="BtnEnvio" class="btn btn-primary">Acceder</button>
+                                            </div> -->
+                                            <div class="d-flex justify-content-center">
+                                                <button type="submit"  id="BtnEnvio" class="btn btn-primary">
+                                                <!-- <span class="spinner-border spinner-border-sm" role="status" aria-hidden="false"></span> -->
+                                                Acceder
+                                                </button>
                                             </div>
                                         </div>
-                                       
+
                                     </form>
                                 </div>
                             </div>
@@ -123,7 +113,6 @@
             </div>
         </section>
     </div>
-  
 
     <!-- Library Bundle Script -->
     <script src="<?= $utils->assets('Js/libs.min.js'); ?>"></script>
@@ -149,8 +138,8 @@
 
     <!-- Form Wizard Script -->
     <script src="<?= $utils->assets('Js/plugins/form-wizard.js'); ?>"></script>
-    <script src="<?=$utils->assets('Js/formulario/formulario.js'); ?>"></script>
-    <script src="<?=$utils->assets('Js/sign-in/sign-in.js'); ?>"></script>
+    <script src="<?= $utils->assets('Js/formulario/formulario.js'); ?>"></script>
+    <script src="<?= $utils->assets('Js/sign-in/sign-in.js'); ?>"></script>
 
 
     <!-- AOS Animation Plugin-->
@@ -159,6 +148,9 @@
     <script src="<?= $utils->assets('Js/hope-ui.js'); ?>" defer></script>
     <script src="<?= $utils->assets('Js/sweetalert/sweetalert2.all.min.js'); ?>" defer></script>
     <script src="<?= $utils->assets('Js/sweetalert/sweetalert2.js'); ?>" defer></script>
+    <script src="<?= $utils->assets('Js/sweetalert/sweetalert2.js'); ?>" defer></script>
+
+
 
 </body>
 

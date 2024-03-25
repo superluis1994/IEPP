@@ -29,7 +29,7 @@ class Utils
         $url = "./Resources/Views/";
        $path = str_replace(".", "/", $path);
         foreach ($data as $key => $value) {
-            $$key = $value;
+            $key = $value;
         }
         
         // $content = "";
