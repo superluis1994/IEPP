@@ -37,16 +37,16 @@ class PanelControllers extends Token
       //    header("Location:" . Utils::url('Auth/sign-in'));
       // }
          // echo var_dump(json_decode($_COOKIE['Auth'], true));
-        
-
+         // echo var_dump($_SESSION["datos"]);
+         // session_destroy();
    }
-   public function index()
+   public function home()
    {
-      $header = $this->header[1] = "NEVERIA | PANEL";
+      $header = $this->header[1] = "IEPP | PANEL";
       // unset($_SESSION["datosUser"]);
       // setcookie('Auth', '', 0, '/'); // Se elimina inmediatamente
-      echo "sorto";
-      // return Utils::view("Auth.sign-in", $data = [], $this->header);
+
+      return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.home", $data = [], $this->header);
    }
 
    /**SE ENCARGA DE CARGAR LOS DATOS */

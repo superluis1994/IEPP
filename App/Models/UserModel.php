@@ -23,12 +23,13 @@ class UserModel
         // $camposArray = array_values($data);
         // $campos = implode(", ", $camposArray);
         $stmt = $this->db->prepare("SELECT cg.id_hermano as id, cg.usuario as dui, cg.password as passwor, dtp.nombre, dtp.apellido,
-                                           drt.year, td.titulo
+                                           drt.year, td.titulo,tus.titulo as tipoUser
                                     FROM {$this->tabla} {$this->alias}
                                     INNER JOIN datos_personales dtp ON dtp.id_congregacion = cg.id_hermano
                                     INNER JOIN directivos dr ON dr.id_congregacion  = cg.id_hermano
                                     INNER JOIN directiva drt ON drt.id_directiva = dr.id_directiva
                                     INNER JOIN tipo_directiva  td ON td.id_tipo_directiva = drt.id_tipo_directiva
+                                    INNER JOIN tipo_de_usuario tus ON tus.id_tipo_usuario = cg.tipo_usuario
                                     WHERE cg.usuario = :USUARIO;");
                                     $stmt->bindParam(":USUARIO", $data["usuario"], PDO::PARAM_STR);
                                     $stmt->execute();

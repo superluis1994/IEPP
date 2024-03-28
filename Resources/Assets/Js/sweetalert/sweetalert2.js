@@ -17,7 +17,7 @@ const Toast = Swal.mixin({
   didClose: (toast) => {
     if(redirectUrl != ""){
     
-      // window.location.href = redirectUrl;
+      window.location.href = redirectUrl;
     }
   }
 })

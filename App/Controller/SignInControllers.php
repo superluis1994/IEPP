@@ -22,7 +22,8 @@ class SignInControllers extends Token
    private AntiInyeciones $inyecciones;
    public function __construct()
    {
-      $this->header[1] = "Auth";
+     
+     
       $this->UserModel = new UserModel;
       // $this->inyecciones = new AntiInyeciones;
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
@@ -32,14 +33,18 @@ class SignInControllers extends Token
       // echo "<br>";
       //    echo var_dump(json_decode($_COOKIE['Auth'], true)); 
       
+      // echo var_dump($_SESSION["datos"]);
+         // session_destroy();
+      
    }
    public function sign_in()
    { 
    
-      if(SessionManager::isUserLoggedIn()){
-         header('Location: https://www.google.com');
-         exit;
-      }
+      // if(SessionManager::isUserLoggedIn()){
+      //    header('Location: www');
+      //    exit;
+      // }
+
       $data=[
          "status"=>"success",
          "icono"=>Utils::assets('Img/auth/ico.png'),
@@ -76,7 +81,7 @@ class SignInControllers extends Token
        $dui = AntiInyeciones::cleanString($_POST['dui']);
        $FrondPassword = AntiInyeciones::cleanString($_POST['password']);
        $respuesta = $this->UserModel->validateUser(["usuario"=>$dui]);
-       $Dbpasword= $this->Encrypto->decrypt($respuesta[0]["passwor"]);
+       @$Dbpasword= $this->Encrypto->decrypt($respuesta[0]["passwor"]);
 
        if(count($respuesta)>0){
           if($FrondPassword == $Dbpasword){
@@ -86,7 +91,7 @@ class SignInControllers extends Token
                "status"=>"success",
                'titulo' => 'Datos correctos',
                'msg' => 'En unos segundos sera redireccionado',
-               'url' => ""
+               'url' => Utils::url('/panel'),
             ];
          }else{
             $response = [

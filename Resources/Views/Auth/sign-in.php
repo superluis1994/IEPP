@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="<?= $utils->assets('Css/rtl.min.css'); ?>" />
 </head>
 
-<body class=" " data-bs-spy="scroll" data-bs-target="#elements-section" data-bs-offset="0" tabindex="0">
+<body class=" " data-bs -spy="scroll" data-bs-target="#elements-section" data-bs-offset="0" tabindex="0">
     <!-- loader Start -->
     <div id="loading">
         <div class="loader simple-loader">
@@ -67,7 +67,7 @@
                                             <div class="col-lg-12">
                                                 <div class="form-group">
                                                     <label for="password" class="form-label">Contraseña</label>
-                                                    <input type="password" class="form-control" name="password" id="password" aria-describedby="password" placeholder="" 
+                                                    <input type="password" class="form-control" name="password" id="password" aria-describedby="password" placeholder="*********" 
                                                     oninvalid="this.setCustomValidity('Por favor, ingresa tu contraseña')" oninput="this.setCustomValidity('')" required>
                                                 </div>
                                             </div>
@@ -148,7 +148,7 @@
     <script src="<?= $utils->assets('Js/hope-ui.js'); ?>" defer></script>
     <script src="<?= $utils->assets('Js/sweetalert/sweetalert2.all.min.js'); ?>" defer></script>
     <script src="<?= $utils->assets('Js/sweetalert/sweetalert2.js'); ?>" defer></script>
-    <script src="<?= $utils->assets('Js/sweetalert/sweetalert2.js'); ?>" defer></script>
+    <!-- <script src="<?= $utils->assets('Js/sweetalert/sweetalert2.js'); ?>" defer></script> -->
 
 
 
