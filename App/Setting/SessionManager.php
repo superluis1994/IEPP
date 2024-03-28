@@ -39,7 +39,14 @@ class SessionManager
     // Cerrar la sesión del usuario
     static function logoutUser()
     {
-        session_unset(); // Eliminar todas las variables de sesión
-        session_destroy(); // Destruir la sesión
+        // session_unset(); // Eliminar todas las variables de sesión
+        // session_destroy(); // Destruir la sesión
+
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            session_unset(); // Eliminar todas las variables de sesión
+            session_destroy(); // Destruir la sesión
+            return true; // Retornar verdadero si la sesión se cerró
+        }
+        return false; // Retornar falso si la sesión no estaba activa o no se pudo cerrar
     }
 }

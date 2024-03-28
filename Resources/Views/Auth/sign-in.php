@@ -138,7 +138,7 @@
 
     <!-- Form Wizard Script -->
     <script src="<?= $utils->assets('Js/plugins/form-wizard.js'); ?>"></script>
-    <script src="<?= $utils->assets('Js/formulario/formulario.js'); ?>"></script>
+    <script src="<?= $utils->assets('Js/Fetch/FetchForm.js'); ?>"></script>
     <script src="<?= $utils->assets('Js/sign-in/sign-in.js'); ?>"></script>
 
 

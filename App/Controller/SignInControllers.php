@@ -40,10 +40,10 @@ class SignInControllers extends Token
    public function sign_in()
    { 
    
-      // if(SessionManager::isUserLoggedIn()){
-      //    header('Location: www');
-      //    exit;
-      // }
+      if(SessionManager::isUserLoggedIn()){
+         header('Location:'.Utils::url("/panel"));
+         exit;
+      }
 
       $data=[
          "status"=>"success",

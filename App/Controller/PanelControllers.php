@@ -8,9 +8,9 @@ use Firebase\JWT\Key;
 use App\Setting\Token;
 use App\Models\UserModel;
 use App\Models\DatosUserModel;
-use App\Models\SucursalesModel;
 use App\Setting\Encryptar;
 use App\Setting\AntiInyection;
+use App\Setting\SessionManager;
 use App\Setting\AuthValidar;
 
 
@@ -20,7 +20,7 @@ class PanelControllers extends Token
    private $header = [];
    private UserModel $UserModel;
    private DatosUserModel $DatosUserModel;
-   private SucursalesModel $SurcursalModel;
+
    private Encryptar $Encrypto;
    private AntiInyection $antiInyeccion;
    public function __construct()
@@ -28,7 +28,6 @@ class PanelControllers extends Token
       $this->header[1] = "Auth";
       $this->UserModel = new UserModel;
       $this->DatosUserModel = new DatosUserModel;
-      $this->SurcursalModel = new SucursalesModel;
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
       $this->antiInyeccion = new AntiInyection;
       //  AuthValidar::Cookies();
@@ -42,13 +41,44 @@ class PanelControllers extends Token
    }
    public function home()
    {
+      if(!SessionManager::isUserLoggedIn()){
+         header('Location:'.Utils::url("/Auth"));
+         exit;
+      }
+      $data=[
+         "status"=>"success",
+         "icono"=>Utils::assets('Img/panel/cpanel.svg'),
+         "titulo"=>"PANEL | Home",
+         "url"=>[
+            "cerrarSesion"=>Utils::url('/panel/salir'),
+            // "resetPassword"=>Utils::url('/Auth/reset')
+         ]
+      ];
       $header = $this->header[1] = "IEPP | PANEL";
-      // unset($_SESSION["datosUser"]);
-      // setcookie('Auth', '', 0, '/'); // Se elimina inmediatamente
-
-      return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.home", $data = [], $this->header);
+      return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.home", $data, $this->header);
    }
 
+   /**CERRAR SESSION DEL USUARIO */
+   public function cerrarSesion()
+   {
+      $response = [
+         "status"=>"error",
+         'titulo' => 'Sesión no cerrada',
+         'msg' => 'por problemas internos no se cerro la sesion',
+         'url' => Utils::url(''),
+      ];
+      
+      if(SessionManager::logoutUser()){
+         $response = [
+            "status"=>"success",
+            'titulo' => 'Sesión cerrada',
+            'msg' => 'presione ok',
+            'url' => Utils::url('/Auth'),
+         ];
+      }
+
+      echo json_encode($response);
+   }
    /**SE ENCARGA DE CARGAR LOS DATOS */
    public function loadMsg()
    {

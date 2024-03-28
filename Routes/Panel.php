@@ -10,5 +10,6 @@ Route::group('/panel', function () {
     Route::get('', "PanelControllers@home");
     Route::get('/', "PanelControllers@home");
     Route::get('/inicio', "PanelControllers@home");
+    Route::get('/salir', "PanelControllers@cerrarSesion");
   
 });

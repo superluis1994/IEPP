@@ -5,10 +5,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Panel</title>
+    <title><?=$data["titulo"]?></title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="<?= $utils->assets("img/favicon.ico") ?>" />
+    <link rel="shortcut icon" href="<?= $data["icono"] ?>" type="image/x-icon">
 
     <!-- Library / Plugin Css Build -->
     <link rel="stylesheet" href="<?= $utils->assets("Css/libs.min.css") ?>" />
@@ -1076,13 +1076,14 @@
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="../dashboard/app/user-profile.html">Profile</a></li>
-                                    <li><a class="dropdown-item" href="../dashboard/app/user-privacy-setting.html">Privacy Setting</a></li>
+                                    <li><a class="dropdown-item" href="../dashboard/app/user-profile.html">Perfil</a></li>
+                                    <!-- <li><a class="dropdown-item" href="../dashboard/app/user-privacy-setting.html">Privacy Setting</a></li> -->
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="../dashboard/auth/sign-in.html">Logout</a></li>
+                                    <li><a class="dropdown-item" href="#" id="Salir" data-url="<?=$utils->url($_ENV["CERRAR_SESICION"])?>">Salir</a></li>
                                 </ul>
+                                <!-- data-bs-toggle="modal" data-bs-target="#staticBackdrop" -->
                             </li>
                         </ul>
                     </div>
