@@ -8,15 +8,17 @@ use Firebase\JWT\Key;
 use App\Setting\Token;
 use App\Models\UserModel;
 use App\Models\DatosUserModel;
+use App\Models\SucursalesModel;
 use App\Setting\Encryptar;
 use App\Setting\AntiInyection;
 use App\Setting\AuthValidar;
 
-class IngresosCotrollers extends Token
+class HomeControllers extends Token
 {
    private $header = [];
    private UserModel $UserModel;
    private DatosUserModel $DatosUserModel;
+   private SucursalesModel $SurcursalModel;
    private Encryptar $Encrypto;
    private AntiInyection $antiInyeccion;
    public function __construct()
@@ -24,6 +26,7 @@ class IngresosCotrollers extends Token
       $this->header[1] = "Auth";
       $this->UserModel = new UserModel;
       $this->DatosUserModel = new DatosUserModel;
+      $this->SurcursalModel = new SucursalesModel;
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
       $this->antiInyeccion = new AntiInyection;
       //  AuthValidar::Cookies();
@@ -41,7 +44,7 @@ class IngresosCotrollers extends Token
       // unset($_SESSION["datosUser"]);
       // setcookie('Auth', '', 0, '/'); // Se elimina inmediatamente
       // echo "sorto";
-      return Utils::viewPanel("Empleado.Home", $data = [], $this->header);
+      return Utils::viewDasboard("Empleado.Home", $data = [], $this->header);
    }
 
    /**SE ENCARGA DE CARGAR LOS DATOS */

@@ -1,14 +1,16 @@
 <?php
 
 namespace App\Models;
+
 use App\Setting\Conexion;
+
 use PDO;
 
-class UserModel
+class TransaccionesModel
 {
-    private $tabla = "congregacion";
-    private $alias = "cg"; // Alias de la tabla referente al modelo
-    private $primaryKey = "id_congregacion";
+    private $tabla = "transacciones";
+    private $alias = "trs"; // Alias de la tabla referente al modelo
+    private $primaryKey = "id_transacciones";
     private $db;
 
     public function __construct()
@@ -17,23 +19,24 @@ class UserModel
     }
 
     // METODO PARA VALIDAR LOS DATOS DEL DIRECTIVO Y RETORNAR LOS DATOS
-    public function validateUser(array $data)
-    {   
-        // $camposArray = array_values($data);
-        // $campos = implode(", ", $camposArray);
-        $stmt = $this->db->prepare("SELECT cg.id_hermano as id, cg.usuario as dui, cg.password as passwor, dtp.nombre, dtp.apellido,
-                                           drt.year, td.titulo,tus.titulo as tipoUser
-                                    FROM {$this->tabla} {$this->alias}
-                                    INNER JOIN datos_personales dtp ON dtp.id_congregacion = cg.id_hermano
-                                    INNER JOIN directivos dr ON dr.id_congregacion  = cg.id_hermano
-                                    INNER JOIN directiva drt ON drt.id_directiva = dr.id_directiva
-                                    INNER JOIN tipo_directiva  td ON td.id_tipo_directiva = drt.id_tipo_directiva
-                                    INNER JOIN tipo_de_usuario tus ON tus.id_tipo_usuario = cg.tipo_usuario
-                                    WHERE cg.usuario = :USUARIO;");
-                                    $stmt->bindParam(":USUARIO", $data["usuario"], PDO::PARAM_STR);
-                                    $stmt->execute();
-                                    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    public function totales()
+    {
+        $stmt = $this->db->prepare("SELECT tde.titulo, 
+                                    CASE 
+                                        WHEN (COALESCE(SUM(CASE WHEN tt.titulo = 'INGRESO' AND YEAR(trs.fecha_transacion) = YEAR(CURRENT_DATE) THEN trs.monto ELSE 0 END), 0) -
+                                            COALESCE(SUM(CASE WHEN tt.titulo = 'RETIRO' AND YEAR(trs.fecha_transacion) = YEAR(CURRENT_DATE) THEN trs.monto ELSE 0 END), 0)) = 0 THEN 'Sin dinero'
+                                        ELSE CAST((COALESCE(SUM(CASE WHEN tt.titulo = 'INGRESO' AND YEAR(trs.fecha_transacion) = YEAR(CURRENT_DATE) THEN trs.monto ELSE 0 END), 0) -
+                                                COALESCE(SUM(CASE WHEN tt.titulo = 'RETIRO' AND YEAR(trs.fecha_transacion) = YEAR(CURRENT_DATE) THEN trs.monto ELSE 0 END), 0)) AS CHAR)
+                                    END AS balance_neto
+                                FROM tipo_de_entrada tde
+                                    LEFT JOIN transacciones trs ON tde.id_tipo_entrada = trs.id_tipo_entrada AND YEAR(trs.fecha_transacion) = YEAR(CURRENT_DATE)
+                                    LEFT JOIN tipo_transacion tt ON tt.id_tipo_transacion = trs.id_tipo_transacion
+                                GROUP BY tde.titulo ORDER BY tde.posicion ASC;");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
     public function getAll()
     {
         $stmt = $this->db->prepare("SELECT * FROM {$this->tabla} {$this->alias}");
@@ -58,7 +61,7 @@ class UserModel
         $values = ":" . implode(", :", array_keys($data));
 
         $stmt = $this->db->prepare("INSERT INTO {$this->tabla} ({$columns}) VALUES ({$values})");
-        
+
         foreach ($data as $key => $value) {
             $stmt->bindValue(":$key", $value);
         }

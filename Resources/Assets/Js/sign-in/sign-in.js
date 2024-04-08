@@ -64,3 +64,4 @@ document.getElementById("formAccerder").addEventListener("submit", async (event)
       btnEnvio.disabled = false;
     }
   });
+

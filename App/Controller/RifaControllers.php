@@ -16,7 +16,7 @@ use App\Setting\AuthValidar;
 use App\Setting\MenuBuilder;
 
 
-class PanelControllers extends Token
+class RifaControllers extends Token
 {
    private $header = [];
    private UserModel $UserModel;
@@ -47,11 +47,11 @@ class PanelControllers extends Token
          exit;
       }
       
-//       // Crear una instancia de MenuBuilder
-// $menu = new MenuBuilder();
+      // Crear una instancia de MenuBuilder
+$menu = new MenuBuilder();
 
-// // Generar el HTML del menú
-// $menuHtml = $menu->buildMenu();
+// Generar el HTML del menú
+$menuHtml = $menu->buildMenu();
 
 // Supongamos que $items_menu obtiene los datos de la base de datos como se muestra en tu captura de pantalla.
 
@@ -62,7 +62,8 @@ class PanelControllers extends Token
       $data=[
          "status"=>"success",
          "icono"=>Utils::assets('Img/panel/cpanel.svg'),
-         "titulo"=>"PANEL | Home",
+         "titulo"=>"PANEL | Rifa",
+         "menu"=>$menuHtml,
          "data"=>$assoctData,
          "url"=>[
             "cerrarSesion"=>Utils::url('/panel/salir'),
@@ -70,7 +71,7 @@ class PanelControllers extends Token
          ]
       ];
       $header = $this->header[1] = "IEPP | PANEL";
-      return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.home", $data, $this->header);
+      return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.rifa", $data, $this->header);
    }
    public function home2()
    {

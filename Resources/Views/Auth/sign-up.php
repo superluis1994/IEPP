@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?= $header[1]; ?></title>
+    <title><?=$data["titulo"]?></title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="<?= $utils->assets('Img/favicon.ico'); ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= $data["icono"] ?>" type="image/x-icon">
     <!-- Library / Plugin Css Build -->
     <link rel="stylesheet" href="<?= $utils->assets('Css/libs.min.css'); ?>" />
     <!-- Hope Ui Design System Css -->
@@ -40,86 +40,65 @@
                   <div class="col-md-10">
                      <div class="card card-transparent auth-card shadow-none d-flex justify-content-center mb-0">
                         <div class="card-body">
-                           <a href="#" class="navbar-brand d-flex align-items-center mb-3">
-                              <!--Logo start-->
-                              <!--logo End-->
-                              
-                              <!--Logo start-->
-                              <div class="logo-main">
-                                  <div class="logo-normal">
-                                     
-                                      <img src="<?= $utils->assets('Img/Logo.png'); ?>" class="text-primary icon-32"  alt="Your Logo Description">
-
-                                  </div>
-                                  <div class="logo-mini">
-                                    
-                                  </div>
-                              </div>
-                              <!--logo End-->
-                              <h4 class="logo-title ms-3"><?=$_ENV["TITULO_APP"]?></h4>
-                           </a>
+                        <div class="d-flex justify-content-center mb-3">
+                                        <a href="#" class="navbar-brand d-flex align-items-center mb-3">
+                                            <!--Logo start-->
+                                            <div class="logo-main">
+                                                <div class="logo-normal">
+                                                    <img src="<?= $utils->assets('Img/auth/Logo_IEPP.webp'); ?>" class="text-primary" width="150" alt="Your Logo Description">
+                                                </div>
+                                            </div>
+                                            <!--logo End-->
+                                        </a>
+                                    </div>
                            <h2 class="mb-2 text-center">Inscribirse</h2>
                            <p class="text-center">Crea tu cuenta <?=$_ENV["TITULO_APP"]?>.</p>
-                           <form method="POST" id="formRegistrar">
+                           <form method="POST" id="formRegistrar" autocomplete="off" data-fetch-url="<?php echo htmlspecialchars($data["url"]["form"]) ?>">
                               <div class="row">
                                  <div class="col-lg-6">
                                     <div class="form-group">
-                                       <label for="full-name" class="form-label">Nombre completo</label>
-                                       <input type="text" class="form-control" name="nombre" id="full-name" placeholder=" ">
+                                       <label for="full-name" class="form-label">Nombres</label>
+                                       <input type="text" class="form-control" name="nombre" id="full-name" placeholder=" " required>
                                     </div>
                                  </div>
                                  <div class="col-lg-6">
                                     <div class="form-group">
                                        <label for="last-name" class="form-label">Apellidos</label>
-                                       <input type="text" class="form-control" name="apellidos" id="last-name" placeholder=" ">
+                                       <input type="text" class="form-control" name="apellidos" id="last-name" placeholder=" " required>
                                     </div>
                                  </div>
                                  <div class="col-lg-6">
                                     <div class="form-group">
                                        <label for="email" class="form-label">Email</label>
-                                       <input type="email" class="form-control" name="email" id="email" placeholder=" ">
+                                       <input type="email" class="form-control" name="email" id="email" placeholder=" " required>
                                     </div>
                                  </div>
                                  <div class="col-lg-6">
                                     <div class="form-group">
                                        <label for="dui" class="form-label">DUI</label>
-                                       <input type="text" class="form-control" name="dui" id="dui" placeholder=" " autocomplete="off" onpaste="return false;" draggable="return false;" >
+                                       <input type="text" class="form-control" name="dui" id="dui" aria-describedby="Dui" placeholder="000000000" 
+                                                    oninvalid="this.setCustomValidity('Por favor, ingresa un DUI de 9 dígitos sin guion')" oninput="this.setCustomValidity('')" required>
                                     </div>
                                  </div>
                                  <div class="col-lg-6">
                                     <div class="form-group">
                                        <label for="password" class="form-label">Contraseña</label>
-                                       <input type="password" class="form-control" name="contraseña" id="password" placeholder=" ">
+                                       <input type="password" class="form-control" name="contraseña" id="password" placeholder=" " required>
                                     </div>
                                  </div>
                                  <div class="col-lg-6">
                                     <div class="form-group">
                                        <label for="confirm-password" class="form-label">Re-Contraseña</label>
-                                       <input type="text" class="form-control" id="confirm-password" placeholder=" ">
+                                       <input type="text" class="form-control" id="confirm-password" placeholder=" " required>
                                     </div>
                                  </div>
                                  <div class="col-lg-6">
                                     <div class="form-group">
                                        <label for="phone" class="form-label">Telefono</label>
-                                       <input type="text" class="form-control" name="telefono" id="phone" placeholder=" ">
+                                       <input type="text" class="form-control" name="telefono" id="phone" placeholder=" " required>
                                     </div>
                                  </div>
-                                 <div class="col-lg-6">
-                                    <div class="form-group">
-                                       <label for="sucursal" class="form-label">Sucursal</label>
-                                       <!-- <input type="text" class="form-control" id="sucursal" placeholder=" "> -->
-                                       <select class="form-select mb-3 shadow-none" name="sucursal" id="sucursal">
-                                             <option selected="">Seleccione uno..</option>
-                                             <?php
-                                             foreach ($data as $key => $value) {
-                                              echo <<<HTML
-                                                      <option value="{$value->id_sucursal}">{$value->nombre}</option>
-                                              HTML;
-                                             }
-                                           ?>
-                                       </select>
-                                    </div>
-                                 </div>
+                             
                                  <div class="col-lg-12 d-flex justify-content-center">
                                     <div class="form-check mb-3">
                                        <input type="checkbox" class="form-check-input" name="terminos" id="customCheck1">
@@ -128,7 +107,7 @@
                                  </div>
                               </div>
                               <div class="d-flex justify-content-center">
-                                 <button type="submit" onclick="formularioEnvio('<?= $utils->url('/Auth/inscribirse');?>','formRegistrar')" id="BtnEnvio" class="btn btn-primary">Inscribirse</button>
+                                 <button type="submit" id="BtnEnvio" class="btn btn-primary">Inscribirse</button>
                               </div>
                               <p class="mt-3 text-center">
                                 Ya tienes una cuenta <a href="<?=$utils->url("/Auth/sign-in");?>" class="text-underline">Iniciar sesión</a>
@@ -178,8 +157,8 @@
 
     <!-- Form Wizard Script -->
     <script src="<?= $utils->assets('Js/plugins/form-wizard.js'); ?>"></script>
-    <script src="<?= $utils->assets('Js/formulario/formulario.js'); ?>"></script>
-    <script src="<?=$utils->assets('Js/sign-in/sign-in.js'); ?>"></script>
+    <script src="<?= $utils->assets('Js/Fetch/FetchForm.js'); ?>"></script>
+    <script src="<?= $utils->assets('Js/sign-up/sign-up.js'); ?>"></script>
     <!-- AOS Animation Plugin-->
 
     <!-- App Script -->

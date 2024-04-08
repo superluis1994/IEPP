@@ -89,6 +89,22 @@
             /* Añade cualquier otro estilo para tu footer aquí */
         }
     </style> -->
+
+    <style>
+        /* Estilo personalizado para el ítem del menú seleccionado con la clase .item-activo */
+.item-activo {
+  background-color: transparent; /* Hace el fondo transparente */
+  border-color: transparent; /* Hace los bordes transparentes */
+  color: #007bff; /* Cambia el color del texto a azul */
+}
+
+/* Opcional: si deseas que al pasar el mouse el estilo permanezca igual */
+.item-activo:hover, .item-activo:focus {
+  color: #007bff; /* Asegura que el texto permanece azul al pasar el mouse */
+  text-decoration: none; /* Remueve el subrayado al pasar el mouse, si es necesario */
+}
+
+    </style>
 </head>
 
 <body class="  ">
@@ -139,8 +155,13 @@
         </div>
         <div class="sidebar-body pt-0 data-scrollbar">
             <div class="sidebar-list">
+
+            <!-- prueba de menu -->
+
+            <?=$data["menu"]?>
+           <!-- fin prueba de menu -->
                 <!-- Sidebar Menu Start -->
-                <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
+                <!-- <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
                     <li class="nav-item static-item">
                         <a class="nav-link static-item disabled" href="#" tabindex="-1">
                             <span class="default-icon">Home</span>
@@ -851,9 +872,10 @@
                             </li>
                         </ul>
                     </li>
-                </ul>
-                <!-- Sidebar Menu End -->
-            </div>
+                </ul> -->
+
+                 <!-- Sidebar Menu End  -->
+            </div> 
         </div>
         <div class="sidebar-footer"></div>
     </aside>
@@ -1089,6 +1111,16 @@
                     </div>
                 </div>
             </nav>
+
+            <!-- <script>document.addEventListener('DOMContentLoaded', function () {
+    var collapseElements = document.querySelectorAll('.collapse');
+    collapseElements.forEach(function(collapseEl) {
+        new bootstrap.Collapse(collapseEl, {
+            toggle: false
+        });
+    });
+});
+</script> -->
             <!-- Nav Header Component Start -->
             <!-- <div class="iq-navbar-header" style="height: 215px;">
               <div class="container-fluid iq-container">

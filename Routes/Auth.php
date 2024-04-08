@@ -14,3 +14,8 @@ Route::group('/Auth', function () {
     Route::get('/acceder', "SignInControllers@Acceder");
     // Route::get('/', "EjemploControllers@index");
 });
+Route::group('/SignUp', function () {
+    Route::get('', "SignUpControllers@home");
+    Route::get('/', "SignUpControllers@home");
+    Route::get('/Registrarse', "SignUpControllers@Registrarse");
+});

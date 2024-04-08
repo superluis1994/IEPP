@@ -3,6 +3,7 @@
 namespace Core;
 
 use Core\App;
+use App\Setting\MenuBuilder;
 
 class Utils
 {
@@ -43,6 +44,11 @@ class Utils
     {
         // instancie la clase aqui para tener acceso a sus clases assets
         $utils = new Utils();
+              // Crear una instancia de MenuBuilder
+        $menu = new MenuBuilder();
+        // Generar el HTML del menú
+        $menuHtml = $menu->buildMenu();
+        $data["menu"] = $menuHtml;
         $url = "./Resources/Views/";
         $path = explode('.', $path);
         foreach ($data as $key => $value) {
