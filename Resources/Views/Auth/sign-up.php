@@ -89,7 +89,7 @@
                                  <div class="col-lg-6">
                                     <div class="form-group">
                                        <label for="confirm-password" class="form-label">Re-Contraseña</label>
-                                       <input type="text" class="form-control" id="confirm-password" placeholder=" " required>
+                                       <input type="text" class="form-control" id="confirm-password" placeholder=" " required autocapitalize="none" required>
                                     </div>
                                  </div>
                                  <div class="col-lg-6">
@@ -101,7 +101,7 @@
                              
                                  <div class="col-lg-12 d-flex justify-content-center">
                                     <div class="form-check mb-3">
-                                       <input type="checkbox" class="form-check-input" name="terminos" id="customCheck1">
+                                       <input type="checkbox" class="form-check-input" name="terminos" id="customCheck1" required>
                                        <label class="form-check-label" for="customCheck1">Estoy de acuerdo con los términos de uso</label>
                                     </div>
                                  </div>
@@ -156,15 +156,16 @@
     <script src="<?= $utils->assets('Js/plugins/slider-tabs.js'); ?>"></script>
 
     <!-- Form Wizard Script -->
+    <script src="<?= $utils->assets('Js/herramientas/formatearInput.js'); ?>"></script>
     <script src="<?= $utils->assets('Js/plugins/form-wizard.js'); ?>"></script>
     <script src="<?= $utils->assets('Js/Fetch/FetchForm.js'); ?>"></script>
     <script src="<?= $utils->assets('Js/sign-up/sign-up.js'); ?>"></script>
+    <script src="<?= $utils->assets('Js/sweetalert/sweetalert2.all.min.js'); ?>" defer></script>
+    <script src="<?= $utils->assets('Js/sweetalert/sweetalert2.js'); ?>" defer></script>
     <!-- AOS Animation Plugin-->
 
     <!-- App Script -->
     <script src="<?= $utils->assets('Js/hope-ui.js'); ?>" defer></script>
-    <script src="<?= $utils->assets('Js/sweetalert/sweetalert2.all.min.js'); ?>" defer></script>
-    <script src="<?= $utils->assets('Js/sweetalert/sweetalert2.js'); ?>" defer></script>
 
 </body> 
 

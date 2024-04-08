@@ -9,7 +9,6 @@ use App\Setting\Token;
 use App\Models\UserModel;
 use App\Models\DatosUserModel;
 use App\Setting\Encryptar;
-use App\Setting\AntiInyection;
 use App\Setting\SessionManager;
 use App\Models\TransaccionesModel;
 use App\Setting\AuthValidar;
@@ -23,14 +22,13 @@ class PanelControllers extends Token
    private DatosUserModel $DatosUserModel;
 
    private Encryptar $Encrypto;
-   private AntiInyection $antiInyeccion;
+
    public function __construct()
    {
       $this->header[1] = "Auth";
       $this->UserModel = new UserModel;
       $this->DatosUserModel = new DatosUserModel;
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
-      $this->antiInyeccion = new AntiInyection;
       //  AuthValidar::Cookies();
       // if (!isset($_COOKIE['Auth'])) {
       //    // echo var_dump(json_decode($_COOKIE['Auth'], true));
@@ -39,6 +37,7 @@ class PanelControllers extends Token
          // echo var_dump(json_decode($_COOKIE['Auth'], true));
          // echo var_dump($_SESSION["datos"]);
          // session_destroy();
+         // echo var_dump($_SESSION["datos"]);
    }
    public function home()
    {
@@ -46,7 +45,11 @@ class PanelControllers extends Token
          header('Location:'.Utils::url("/Auth"));
          exit;
       }
-      
+      if($_SESSION["datos"][0]["tipoUser"] == "Cristiano"){
+         SessionManager::logoutUser();
+         return Utils::view("Error.maintenance", $data=[], $this->header);
+        exit;
+      }
 //       // Crear una instancia de MenuBuilder
 // $menu = new MenuBuilder();
 

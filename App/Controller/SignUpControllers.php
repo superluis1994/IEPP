@@ -47,22 +47,56 @@ class SignUpControllers extends Token
    /**SE ENCARGA DE REGISTAR LOS DATOS DEL USUARIO */
    public function Registrarse()
    {
-
-      // $response = [
-      //    'status' => 'Error',
-      //    'titulo' => 'NO REGISTRADO',
-      //    'msg' => 'Surgieron errores al regitrar sus datos',
-      //    'url' => ''
-      // ];
-
-     
+      $response = [
+         'status' => 'error',
+         'titulo' => 'Error',
+         'msg' => 'comuniquese con el administrador error 500',
+         'url' => Utils::url('/Auth/sign-in'),
+         "data" =>$_POST["nombre"]
+      ];
+      
+      $datos=$_POST;
+      // $this->UserModel->findByDui($datos["dui"]);
+      if ($this->UserModel->findByDui($datos["dui"])) {
          $response = [
-            'status' => 'success',
-            'titulo' => 'Exito',
-            'msg' => 'Registrado correctamente',
-            'url' => Utils::url('/Auth/sign-in'),
-            "data" =>$_POST["nombre"]
+            'status' => 'error',
+            'titulo' => 'NO REGISTRADO',
+            'msg' => 'El Dui ya esta registrado, utilice otro Dui',
+            'url' => ''
          ];
+         echo json_encode( $response);
+         exit;
+           } 
+
+      $estructuraDatos = [
+         "nombre" => "string",
+         "apellidos" => "string",
+         "email" => "email",
+         "dui" => "string",
+         "contraseña" => "string",
+         "telefono" => "string",
+         "terminos" => "bool"
+     ];
+      $datosCombinados = [];
+
+      foreach ($datos as $clave => $valor) {
+          $datosCombinados[$clave] = [
+              'value' => $valor,
+              'type' => $estructuraDatos[$clave] ?? 'string' // Suponer string por defecto
+          ];
+      }
+      $DatosFiltrados=AntiInyeciones::cleanDataArray($datosCombinados);
+      
+       if($this->UserModel->createUsuario($DatosFiltrados)){
+
+          $response = [
+             'status' => 'success',
+             'titulo' => 'Exito',
+             'msg' => 'Registrado correctamente',
+             'url' => Utils::url('/Auth'),
+             "data" =>$_POST["nombre"]
+          ];
+       }
       
 
       echo json_encode($response);

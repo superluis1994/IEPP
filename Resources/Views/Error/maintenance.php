@@ -5,29 +5,28 @@
   <head>
     <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>Hope UI | Responsive Bootstrap 5 Admin Dashboard Template</title>
+      <title>EN MANTENIMIENTO</title>
       
-      <!-- Favicon -->
-      <link rel="shortcut icon" href="../../assets/images/favicon.ico" />
+      <link rel="shortcut icon" href="<?= $utils->assets('images/favicon.ico')?>"/>
       
       <!-- Library / Plugin Css Build -->
-      <link rel="stylesheet" href="../../assets/css/core/libs.min.css" />
+      <link rel="stylesheet" href="<?= $utils->assets('Css/libs.min.css')?>"/>
       
       
       <!-- Hope Ui Design System Css -->
-      <link rel="stylesheet" href="../../assets/css/hope-ui.min.css?v=2.0.0" />
+      <link rel="stylesheet" href="<?= $utils->assets('Css/hope-ui.min.css?v=2.0.0')?>"/>
       
       <!-- Custom Css -->
-      <link rel="stylesheet" href="../../assets/css/custom.min.css?v=2.0.0" />
+      <link rel="stylesheet" href="<?= $utils->assets('Css/custom.min.css?v=2.0.0')?>"/>
       
       <!-- Dark Css -->
-      <link rel="stylesheet" href="../../assets/css/dark.min.css"/>
+      <link rel="stylesheet" href="<?= $utils->assets('Css/dark.min.css')?>"/>
       
       <!-- Customizer Css -->
-      <link rel="stylesheet" href="../../assets/css/customizer.min.css" />
+      <link rel="stylesheet" href="<?= $utils->assets('Css/customizer.min.css')?>"/>
       
       <!-- RTL Css -->
-      <link rel="stylesheet" href="../../assets/css/rtl.min.css"/>
+      <link rel="stylesheet" href="<?= $utils->assets('Css/rtl.min.css')?>"/>
       
       
   </head>
@@ -42,31 +41,31 @@
       <div class="wrapper">
     <div class="container-fluid p-0">
         <div class="iq-maintenance text-center"> 
-            <img src="../../assets/images/error/01.png" class="img-fluid mb-4" alt="">            
+            <img src="<?=$utils->assets('images/error/01.png')?>" class="img-fluid mb-4" alt="">            
             <div class="maintenance-bottom text-white pb-0">
                 
                 <div class="bg-primary" style="background: transparent; height: 320px;">
                     <div class="gradient-bottom">
                         <div class="bottom-text general-zindex">
-                            <h1 class="mb-2 text-white">Hang on! We are under maintenance</h1>
-                            <p>It will not take a long time till we get the error fiked. We wii live again in</p>
-                            <ul class="countdown d-flex justify-content-center align-items-center list-inline" data-date="Aug 02 2022 20:20:22">
+                            <h1 class="mb-2 text-white">PROXIMAMENTE ESTARA DISPONIBLE</h1>
+                            <p>Actualmente esta en desarrollo pero entre unos dias estara diponible para todos los jovenes</p>
+                            <ul class="countdown d-flex justify-content-center align-items-center list-inline" data-date="May 31 2024 20:20:22">
                                 <li>
-                                    <span data-days>0</span>Days
+                                    <span data-days>15</span>Days
                                 </li>
                                 <li>
-                                    <span data-hours>0</span>Hours
+                                    <span data-hours>13</span>Hours
                                 </li>
                                 <li>
-                                    <span data-minutes>0</span>Minutes
+                                    <span data-minutes>22</span>Minutes
                                 </li>
                                 <li>
-                                    <span data-seconds>0</span>Seconds
+                                    <span data-seconds>60</span>Seconds
                                 </li>
                             </ul>
                             <div class="w-50 mx-auto mt-2">
                                 <div class="input-group search-input search-input">
-                                    <input type="text" class="form-control" placeholder="Enter your mail">
+
                                     <a href="#" class="btn bg-white text-primary ms-2 rounded">Notify Me</a>
                                 </div>
                             </div>
@@ -97,36 +96,29 @@
     </div>
       </div>
     
-    <!-- Library Bundle Script -->
-    <script src="../../assets/js/core/libs.min.js"></script>
+      <script src="<?=$utils->assets('Js/libs.min.js')?>"></script>
     
     <!-- External Library Bundle Script -->
-    <script src="../../assets/js/core/external.min.js"></script>
+    <script src="<?=$utils->assets('Js/external.min.js')?>"></script>
     
-    <!-- Widgetchart Script -->
-    <script src="../../assets/js/charts/widgetcharts.js"></script>
-    
-    <!-- mapchart Script -->
-    <script src="../../assets/js/charts/vectore-chart.js"></script>
-    <script src="../../assets/js/charts/dashboard.js" ></script>
     
     <!-- fslightbox Script -->
-    <script src="../../assets/js/plugins/fslightbox.js"></script>
+    <script src="<?=$utils->assets('Js/plugins/fslightbox.js')?>"></script>
     
     <!-- Settings Script -->
-    <script src="../../assets/js/plugins/setting.js"></script>
+    <script src="<?=$utils->assets('Js/plugins/setting.js')?>"></script>
     
     <!-- Slider-tab Script -->
-    <script src="../../assets/js/plugins/slider-tabs.js"></script>
+    <script src="<?=$utils->assets('Js/plugins/slider-tabs.js')?>"></script>
     
     <!-- Form Wizard Script -->
-    <script src="../../assets/js/plugins/form-wizard.js"></script>
+    <script src="<?=$utils->assets('Js/plugins/form-wizard.js')?>"></script>
     
     <!-- AOS Animation Plugin-->
     
     <!-- App Script -->
-    <script src="../../assets/js/hope-ui.js" defer></script>
+    <script src="<?=$utils->assets('js/hope-ui.js')?>" defer></script>
     
-<script src="../../assets/js/plugins/countdown.js"></script>
+<script src="<?=$utils->assets('Js/countdown.js')?>"></script>
   </body>
 </html>

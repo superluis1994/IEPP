@@ -1,24 +1,45 @@
-document.getElementById("dui").addEventListener("keyup", function (e) {
-    const input = e.target.value.replace(/[^0-9-]/g, "").slice(0, 9); // Reemplazar caracteres no permitidos y limitar a 9 caracteres
-    e.target.value = input;
-  });
-  document.getElementById("dui").addEventListener("blur", function (e) {
-    input = e.target.value;
-    if (input.length === 9 && e.key !== "Backspace") {
-      e.target.value = input.slice(0, 8) + "-" + e.target.value[8];
-    }
-  });
-  document.getElementById("dui").addEventListener("focus", function (e) {
-    const input = e.target.value.replace("-", "").slice(0, 9); // Reemplazar caracteres no permitidos y limitar a 9 caracteres
-    e.target.value = input;
-  });
+
+// Instanciando la clase para el campo DUI
+new FormateadorCampo("dui", "dui");
+
+// Instanciando la clase para el campo de teléfono
+new FormateadorCampo("phone", "telefono");
+
+
+document.getElementById("confirm-password").addEventListener('keyup', function (e) {
+  var confirmPassword = e.target.value;
+  var password = document.getElementById('password').value;
+
+  if (confirmPassword === password && confirmPassword !== "") {
+      e.target.classList.add('is-valid');
+      e.target.classList.remove('is-invalid'); // Asegúrate de remover 'is-invalid' si las contraseñas ahora coinciden
+  } else {
+      e.target.classList.remove('is-valid'); // Remueve 'is-valid' si las contraseñas no coinciden
+      e.target.classList.add('is-invalid');
+  }
+});
+
+
+
   //VARIABLE DE REDIRECCION
   let redirectUrl="";
 
 // Cuando tu formulario se envíe, crea un objeto FormData y usa sendForm para enviarlo
 document.getElementById("formRegistrar").addEventListener("submit", async (event) => {
     event.preventDefault(); // Previene el envío estándar del formulario
+   
+ 
+    // Seleccionar el campo de confirmación de contraseña
+    const confirmPasswordField = document.getElementById("confirm-password");
 
+    // Verificar si tiene la clase 'is-valid'
+    if (!confirmPasswordField.classList.contains('is-valid')) {
+        // Mostrar un mensaje de error, ajusta esto según tu método de notificación
+        alert('Las contraseñas no coinciden o no han sido validadas.'); // Ejemplo con alert, reemplázalo por tu método de notificación
+        // Detener la ejecución si el campo no tiene la clase 'is-valid'
+        return;
+    }
+    
     const Url = event.target.getAttribute("data-fetch-url");
     const btnEnvio = document.getElementById("BtnEnvio");
 
@@ -66,3 +87,4 @@ document.getElementById("formRegistrar").addEventListener("submit", async (event
       btnEnvio.disabled = false;
     }
   });
+

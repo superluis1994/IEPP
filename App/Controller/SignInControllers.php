@@ -29,13 +29,7 @@ class SignInControllers extends Token
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
       // echo $this->Encrypto->decrypt('DmNwbDBMemgMrSN9wbqlff3xDrqh3RTQEoKAjgTgOag=');
       // echo $this->Encrypto->encryptItem('1234');
-      // echo var_dump($_SESSION["datosUser"]);
-      // echo "<br>";
-      //    echo var_dump(json_decode($_COOKIE['Auth'], true)); 
-      
-      // echo var_dump($_SESSION["datos"]);
-         // session_destroy();
-      
+    
    }
    public function sign_in()
    { 
@@ -54,6 +48,7 @@ class SignInControllers extends Token
             "resetPassword"=>Utils::url('/Auth/reset')
          ]
       ];
+      // echo $this->Encrypto->encrypt("@Cesia94");
       // echo $passwordDecrypt=$this->Encrypto->encrypt("@Cesia94");
       // $variable = Utils::url('/Auth/acceder');
       // unset($_SESSION["datosUser"]);
@@ -78,14 +73,20 @@ class SignInControllers extends Token
          "data" =>""
       ];
 
-       $dui = AntiInyeciones::cleanString($_POST['dui']);
+        $dui = AntiInyeciones::cleanString($_POST['dui']);
        $FrondPassword = AntiInyeciones::cleanString($_POST['password']);
-       $respuesta = $this->UserModel->validateUser(["usuario"=>$dui]);
-       @$Dbpasword= $this->Encrypto->decrypt($respuesta[0]["passwor"]);
+      $respuesta = $this->UserModel->validateUser(["usuario"=>$dui]);
+        @$Dbpasword= $this->Encrypto->decrypt($respuesta[0]["passwor"]);
 
        if(count($respuesta)>0){
           if($FrondPassword == $Dbpasword){
+            if($respuesta[0]["tipoUser"] == "Directivo"){
+            $respuesta = $this->UserModel->datosUser(["usuario"=>$dui]);
             SessionManager::loginUser($respuesta);
+
+            }else{
+               SessionManager::loginUser($respuesta);
+            }
 
             $response = [
                "status"=>"success",
