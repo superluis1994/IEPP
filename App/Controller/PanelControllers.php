@@ -29,15 +29,6 @@ class PanelControllers extends Token
       $this->UserModel = new UserModel;
       $this->DatosUserModel = new DatosUserModel;
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
-      //  AuthValidar::Cookies();
-      // if (!isset($_COOKIE['Auth'])) {
-      //    // echo var_dump(json_decode($_COOKIE['Auth'], true));
-      //    header("Location:" . Utils::url('Auth/sign-in'));
-      // }
-         // echo var_dump(json_decode($_COOKIE['Auth'], true));
-         // echo var_dump($_SESSION["datos"]);
-         // session_destroy();
-         // echo var_dump($_SESSION["datos"]);
    }
    public function home()
    {

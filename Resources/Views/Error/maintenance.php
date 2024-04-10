@@ -63,12 +63,7 @@
                                     <span data-seconds>60</span>Seconds
                                 </li>
                             </ul>
-                            <div class="w-50 mx-auto mt-2">
-                                <div class="input-group search-input search-input">
-
-                                    <a href="#" class="btn bg-white text-primary ms-2 rounded">Notify Me</a>
-                                </div>
-                            </div>
+                           
                         </div>
                         <div class="c xl-circle">
                             <div class="c lg-circle">

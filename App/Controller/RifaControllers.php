@@ -8,8 +8,6 @@ use Firebase\JWT\Key;
 use App\Setting\Token;
 use App\Models\UserModel;
 use App\Models\DatosUserModel;
-use App\Setting\Encryptar;
-use App\Setting\AntiInyection;
 use App\Setting\SessionManager;
 use App\Models\TransaccionesModel;
 use App\Setting\AuthValidar;
@@ -21,24 +19,11 @@ class RifaControllers extends Token
    private $header = [];
    private UserModel $UserModel;
    private DatosUserModel $DatosUserModel;
-
-   private Encryptar $Encrypto;
-   private AntiInyection $antiInyeccion;
    public function __construct()
    {
       $this->header[1] = "Auth";
       $this->UserModel = new UserModel;
       $this->DatosUserModel = new DatosUserModel;
-      $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
-      $this->antiInyeccion = new AntiInyection;
-      //  AuthValidar::Cookies();
-      // if (!isset($_COOKIE['Auth'])) {
-      //    // echo var_dump(json_decode($_COOKIE['Auth'], true));
-      //    header("Location:" . Utils::url('Auth/sign-in'));
-      // }
-         // echo var_dump(json_decode($_COOKIE['Auth'], true));
-         // echo var_dump($_SESSION["datos"]);
-         // session_destroy();
    }
    public function home()
    {

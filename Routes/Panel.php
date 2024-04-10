@@ -14,17 +14,17 @@ Route::group('/panel', function () {
     Route::get('/salir', "PanelControllers@cerrarSesion");
     
 });
-Route::group('/panel/adm/Ventas', function () {
+Route::group('/panel/adm/ventas', function () {
     
-    Route::get('', "VentaControllers@home");
-    Route::get('/', "VentaControllers@home");
+    Route::get('', "ventaControllers@home");
+    Route::get('/', "ventaControllers@home");
 });
-Route::group('/panel/adm/Rifas', function () {
+Route::group('/panel/adm/rifas', function () {
     
-    Route::get('', "RifaControllers@home");
-    Route::get('/', "RifaControllers@home");
+    Route::get('', "rifaControllers@home");
+    Route::get('/', "rifaControllers@home");
 });
-Route::group('/panel/adm/Talento', function () {
-    Route::get('', "TalentoControllers@home");
-    Route::get('/', "TalentoControllers@home");
+Route::group('/panel/adm/talento', function () {
+    Route::get('',"talentoControllers@home");
+    Route::get('/',"TalentoControllers@home");
 });

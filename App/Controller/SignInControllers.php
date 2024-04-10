@@ -23,12 +23,9 @@ class SignInControllers extends Token
    public function __construct()
    {
      
-     
       $this->UserModel = new UserModel;
-      // $this->inyecciones = new AntiInyeciones;
+      $this->inyecciones = new AntiInyeciones;
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
-      // echo $this->Encrypto->decrypt('DmNwbDBMemgMrSN9wbqlff3xDrqh3RTQEoKAjgTgOag=');
-      // echo $this->Encrypto->encryptItem('1234');
     
    }
    public function sign_in()
@@ -48,17 +45,6 @@ class SignInControllers extends Token
             "resetPassword"=>Utils::url('/Auth/reset')
          ]
       ];
-      // echo $this->Encrypto->encrypt("@Cesia94");
-      // echo $passwordDecrypt=$this->Encrypto->encrypt("@Cesia94");
-      // $variable = Utils::url('/Auth/acceder');
-      // unset($_SESSION["datosUser"]);
-
-      // setcookie('Auth', '', 0, '/'); // Se elimina inmediatamente
-      // if (isset($_COOKIE['Auth'])) {
-   
-      //    // echo var_dump(json_decode($_COOKIE['Auth'], true));
-      //    header("Location:" . Utils::url('/Panel'));
-      // }
       return Utils::view("Auth.sign-in", $data, $this->header);
    }
 
@@ -73,8 +59,8 @@ class SignInControllers extends Token
          "data" =>""
       ];
 
-        $dui = AntiInyeciones::cleanString($_POST['dui']);
-       $FrondPassword = AntiInyeciones::cleanString($_POST['password']);
+        $dui = $this->inyecciones->cleanString($_POST['dui']);
+       $FrondPassword = $this->inyecciones->cleanString($_POST['password']);
       $respuesta = $this->UserModel->validateUser(["usuario"=>$dui]);
         @$Dbpasword= $this->Encrypto->decrypt($respuesta[0]["passwor"]);
 
@@ -105,60 +91,6 @@ class SignInControllers extends Token
          }
          
        }
-
-//       $Data = [
-//          "dui" => $_POST["dui"],
-//          "password" => $_POST["password"],
-//       ];
-// // echo var_dump($Data);
-//       $Data = $this->antiInyeccion->Limpiar($Data);
-//       @$userData = $this->DatosUserModel
-//       ->QueryEspefico([
-//          "user.id_user as id", "data_user.nombre as nombre","data_user.apellidos",
-//          "user.dui as Dui","user.password as password", "sucursal.nombre as sucursal","user.rol","estado.nombre as estado"
-//          ])
-//          ->MultJoin([
-//             ["tablaPk" => "user", "pk" => "id_user", "tablaFk" => "data_user", "fk" => "id_user"],
-//             ["tablaPk" => "user", "pk" => "id_sucursal", "tablaFk" => "sucursal", "fk" => "id_sucursal"],
-//             ["tablaPk" => "user", "pk" => "status", "tablaFk" => "estado", "fk" => "id_status"],    
-//             ])
-//             ->Mult_Where([
-//             [
-//                "atributo" => "user.dui", "condicion" => "=",
-//                "value" => $Data['dui'], "operador" => ""
-//                ]
-//                ])->first();
-                
-            
-//       // print_r($userData);
-//       if($userData != null){
-         
-//       //   $passwordDecrypt=$this->Encrypto->decrypt($userData[0]["password"]);
-//       if($this->Encrypto->decrypt($userData[0]["password"]) == $Data["password"]){
-//          if(isset($_POST["cookie"]) && @$_POST["cookie"]=="on"){
-
-//             $array = ["dui"=>$userData[0]["Dui"],'empleado' => $userData[0]["nombre"], 'password' =>$userData[0]["password"]];
-//             setcookie('Auth', json_encode($array), time() + (60 * 60 * 24 * 30), '/'); // 30 días
-
-//          }
-//             @$_SESSION['datosUser'];
-//             $datos['id'] = $this->Encrypto->encrypt($userData[0]['id']);
-//             $datos['user'] = $userData[0]['nombre'];
-//             $datos['status'] = $userData[0]['estado'];
-//             $datos['rol'] = $userData[0]['rol'];
-//             $_SESSION['datosUser'] = $datos;
-           
-
-//               $response = [
-//                  'status' => 'success',
-//                  'titulo' => 'Exito',
-//                  'msg' => 'En breves segundos sera redireccionado',
-//                  'url' => Utils::url('/panel'),
-//                  "data" => $Data
-//               ];
-//             }
-
-//        }
 
       echo json_encode($response);
    }

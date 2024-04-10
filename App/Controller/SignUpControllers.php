@@ -23,7 +23,7 @@ class SignUpControllers extends Token
    public function __construct()
    {
       $this->UserModel = new UserModel;
-      // $this->inyecciones = new AntiInyeciones;
+      $this->inyecciones = new AntiInyeciones;
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
    }
    public function home()
@@ -85,7 +85,7 @@ class SignUpControllers extends Token
               'type' => $estructuraDatos[$clave] ?? 'string' // Suponer string por defecto
           ];
       }
-      $DatosFiltrados=AntiInyeciones::cleanDataArray($datosCombinados);
+      $DatosFiltrados=$this->inyecciones->cleanDataArray($datosCombinados);
       
        if($this->UserModel->createUsuario($DatosFiltrados)){
 

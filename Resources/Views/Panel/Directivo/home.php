@@ -112,7 +112,7 @@
          <div class="row">
             <!-- Card 1 -->
             <div class="col-6 col-md-4 col-lg-3">
-               <div class="card mb-4 shadow-sm card-menu ">
+               <div class="card mb-4 shadow-sm card-menu " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                   <div class="card-header bg-primary text-white">
                      <div class="icon-wrapper">
                         <i class="fa-solid fa-credit-card fa-lg"></i>
@@ -126,7 +126,7 @@
             </div>
             <!-- ...other cards... -->
             <div class="col-6 col-md-4 col-lg-3">
-               <div class="card mb-4 shadow-sm card-menu">
+               <div class="card mb-4 shadow-sm card-menu" data-bs-toggle="modal" data-bs-target="#ModSalidas">
                   <div class="card-header bg-primary text-white">
                      <div class="icon-wrapper">
                         <i class="fa-solid fa-credit-card fa-lg"></i>
@@ -435,5 +435,93 @@
 
 
 
+   </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Modal entradas-->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">AGREGAR ENTRADA</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="col-md-5">
+                  <div class="form-group">
+                     <label class="form-label">TIPO DE ENTRADA</label>
+                     <select class="form-select mb-3 shadow-none">
+                        <option selected="">Open this select menu</option>
+                        <option value="1">Talento</option>
+                        <option value="2">Rifa</option>
+                        <option value="3">Ventas</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="col-md-5">
+                  <div class="form-group">
+                     <label class="form-label">CANTIDAD</label>
+                     <input type="number" class="form-control" name="cantida">
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+            <button type="button" class="btn btn-primary">REGISTRAR</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<!-- Modal salidas-->
+<div class="modal fade" id="ModSalidas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">AGREGAR SALIDA</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="col-md-5">
+                  <div class="form-group">
+                     <label class="form-label">TIPO DE SALIDA</label>
+                     <select class="form-select mb-3 shadow-none">
+                        <option selected="">Open this select menu</option>
+                        <option value="1">Talento</option>
+                        <option value="2">Rifa</option>
+                        <option value="3">Ventas</option>
+                        <option value="4">Ofrenda</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="col-md-5">
+                  <div class="form-group">
+                     <label class="form-label">CANTIDAD</label>
+                     <input type="number" class="form-control" name="cantida">
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+            <button type="button" class="btn btn-primary">REGISTRAR</button>
+         </div>
+      </div>
    </div>
 </div>

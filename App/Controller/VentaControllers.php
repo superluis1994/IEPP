@@ -9,7 +9,6 @@ use App\Setting\Token;
 use App\Models\UserModel;
 use App\Models\DatosUserModel;
 use App\Setting\Encryptar;
-use App\Setting\AntiInyection;
 use App\Setting\SessionManager;
 use App\Models\TransaccionesModel;
 use App\Setting\AuthValidar;
@@ -19,107 +18,53 @@ use App\Setting\MenuBuilder;
 class VentaControllers extends Token
 {
    private $header = [];
-   private UserModel $UserModel;
-   private DatosUserModel $DatosUserModel;
+   private MenuBuilder $Menu;
 
    private Encryptar $Encrypto;
-   private AntiInyection $antiInyeccion;
    public function __construct()
    {
       $this->header[1] = "Auth";
-      $this->UserModel = new UserModel;
-      $this->DatosUserModel = new DatosUserModel;
-      $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
-      $this->antiInyeccion = new AntiInyection;
-      //  AuthValidar::Cookies();
-      // if (!isset($_COOKIE['Auth'])) {
-      //    // echo var_dump(json_decode($_COOKIE['Auth'], true));
-      //    header("Location:" . Utils::url('Auth/sign-in'));
-      // }
-         // echo var_dump(json_decode($_COOKIE['Auth'], true));
-         // echo var_dump($_SESSION["datos"]);
-         // session_destroy();
+      $this->Menu = new MenuBuilder();
+
    }
    public function home()
    {
-      if(!SessionManager::isUserLoggedIn()){
-         header('Location:'.Utils::url("/Auth"));
+      if (!SessionManager::isUserLoggedIn()) {
+         header('Location:' . Utils::url("/Auth"));
          exit;
       }
-      
-      // Crear una instancia de MenuBuilder
-$menu = new MenuBuilder();
+ 
+      // Generar el HTML del menú
+      $menuHtml = $this->Menu->buildMenu();
 
-// Generar el HTML del menú
-$menuHtml = $menu->buildMenu();
-
-// Supongamos que $items_menu obtiene los datos de la base de datos como se muestra en tu captura de pantalla.
-
-// Crear una instancia de MenuBuilder y construir el menú
-      
-      $assoctData = new TransaccionesModel();
-      $assoctData=$assoctData->totales();
-      $data=[
-         "status"=>"success",
-         "icono"=>Utils::assets('Img/panel/cpanel.svg'),
-         "titulo"=>"PANEL | Home",
-         "menu"=>$menuHtml,
-         "data"=>$assoctData,
-         "url"=>[
-            "cerrarSesion"=>Utils::url('/panel/salir'),
+         /** GENERO LA RESPUESTA DEL FETCH DEL JS EN JSONG */
+      $data = [
+         "status" => "success",
+         "icono" => Utils::assets('Img/panel/cpanel.svg'),
+         "titulo" => "PANEL | VENTAS",
+         "menu" => $menuHtml,
+         "data" => "",
+         "url" => [
+            "cerrarSesion" => Utils::url('/panel/salir'),
             // "resetPassword"=>Utils::url('/Auth/reset')
          ]
       ];
-      $header = $this->header[1] = "IEPP | PANEL";
-      return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.venta", $data, $this->header);
-   }
-   public function home2()
-   {
-      if(!SessionManager::isUserLoggedIn()){
-         header('Location:'.Utils::url("/Auth"));
-         exit;
-      }
-      
-      // Crear una instancia de MenuBuilder
-$menu = new MenuBuilder();
-
-// Generar el HTML del menú
-$menuHtml = $menu->buildMenu();
-
-// Supongamos que $items_menu obtiene los datos de la base de datos como se muestra en tu captura de pantalla.
-
-// Crear una instancia de MenuBuilder y construir el menú
-      
-      $assoctData = new TransaccionesModel();
-      $assoctData=$assoctData->totales();
-      $data=[
-         "status"=>"success",
-         "icono"=>Utils::assets('Img/panel/cpanel.svg'),
-         "titulo"=>"PANEL | Home",
-         "menu"=>$menuHtml,
-         "data"=>$assoctData,
-         "url"=>[
-            "cerrarSesion"=>Utils::url('/panel/salir'),
-            // "resetPassword"=>Utils::url('/Auth/reset')
-         ]
-      ];
-      $header = $this->header[1] = "IEPP | PANEL";
-      return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.home", $data, $this->header);
+      return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.venta", $data);
    }
 
    /**CERRAR SESSION DEL USUARIO */
    public function cerrarSesion()
    {
       $response = [
-         "status"=>"error",
+         "status" => "error",
          'titulo' => 'Sesión no cerrada',
          'msg' => 'por problemas internos no se cerro la sesion',
          'url' => Utils::url(''),
       ];
-      
-      if(SessionManager::logoutUser()){
+
+      if (SessionManager::logoutUser()) {
          $response = [
-            "status"=>"success",
+            "status" => "success",
             'titulo' => 'Sesión cerrada',
             'msg' => 'presione ok',
             'url' => Utils::url('/Auth'),
