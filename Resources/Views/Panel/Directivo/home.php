@@ -452,7 +452,7 @@
 
 <!-- Modal entradas-->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered modal-xl">
+   <div class="modal-dialog modal-dialog-centered  modal-md">
       <div class="modal-content">
          <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">AGREGAR ENTRADA</h5>
@@ -460,7 +460,7 @@
          </div>
          <div class="modal-body">
             <div class="row">
-               <div class="col-md-5">
+               <div class="col-sm-12 col-md-12">
                   <div class="form-group">
                      <label class="form-label">TIPO DE ENTRADA</label>
                      <select class="form-select mb-3 shadow-none">
@@ -471,7 +471,7 @@
                      </select>
                   </div>
                </div>
-               <div class="col-md-5">
+               <div class="col-sm-12 col-md-12">
                   <div class="form-group">
                      <label class="form-label">CANTIDAD</label>
                      <input type="number" class="form-control" name="cantida">
@@ -490,7 +490,7 @@
 
 <!-- Modal salidas-->
 <div class="modal fade" id="ModSalidas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered modal-xl">
+   <div class="modal-dialog modal-dialog-centered modal-md">
       <div class="modal-content">
          <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">AGREGAR SALIDA</h5>
@@ -498,7 +498,7 @@
          </div>
          <div class="modal-body">
             <div class="row">
-               <div class="col-md-5">
+               <div class="col-sm-12 col-md-12">
                   <div class="form-group">
                      <label class="form-label">TIPO DE SALIDA</label>
                      <select class="form-select mb-3 shadow-none">
@@ -510,7 +510,7 @@
                      </select>
                   </div>
                </div>
-               <div class="col-md-5">
+               <div class="col-sm-12 col-md-12 ">
                   <div class="form-group">
                      <label class="form-label">CANTIDAD</label>
                      <input type="number" class="form-control" name="cantida">

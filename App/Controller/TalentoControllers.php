@@ -3,34 +3,37 @@
 namespace App\Controller;
 
 use Core\Utils;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-use App\Setting\Token;
-use App\Models\UserModel;
-use App\Models\DatosUserModel;
+// use Firebase\JWT\JWT;
+// use Firebase\JWT\Key;
+// use App\Setting\Token;
+use App\Models\TalentoModel;
 use App\Setting\Encryptar;
 use App\Setting\SessionManager;
 use App\Models\TransaccionesModel;
 use App\Setting\AuthValidar;
 use App\Setting\MenuBuilder;
+use App\Setting\Paginacion;
 
 
-class TalentoControllers extends Token
+class TalentoControllers 
 {
    private $header = [];
    private MenuBuilder $Menu;
-   private UserModel $UserModel;
-   private DatosUserModel $DatosUserModel;
-
+   private TalentoModel $talentoModel;
    private Encryptar $Encrypto;
+   private $paginas;
+   private $limited;
    public function __construct()
    {
       /** CREAR UNA INSTANCIA DE LOS OBJETOS */
-      $this->header[1] = "Auth";
+      $this->header[1] = "Talento";
+      $this->paginas = 10;
+      $this->limited =2;
       $this->Menu = new MenuBuilder();
-      $this->UserModel = new UserModel;
-      $this->DatosUserModel = new DatosUserModel;
+      $this->talentoModel = new TalentoModel();
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
+
+      // echo var_dump($_SESSION["datos"]);
    }
    public function home()
    {
@@ -42,16 +45,21 @@ class TalentoControllers extends Token
      
       /** GENERAR EL HTML DEL MENÚ */
       $menuHtml = $this->Menu->buildMenu();
-      /** GENERO EL BANNER DE LOS TOTALES DE DINERO GENERADO */
-      $assoctData = new TransaccionesModel();
-      $assoctData = $assoctData->totales();
+
+     /** OBTENER LOS REGITROS DE LOS TALENTOS */
+       $GetRegistros=$this->talentoModel->getAll($_SESSION["datos"][0]["id_directiva"]);
+       $paginacion =  new Paginacion(count($GetRegistros), $this->limited, $this->paginas, 1, "");
+       $pag = $paginacion->createLink("pagination justify-content-center");
+      //  echo var_dump($GetRegistros);
+       
       /** GENERO LA RESPUESTA DEL FETCH DEL JS EN JSONG */
       $data = [
          "status" => "success",
          "icono" => Utils::assets('Img/panel/cpanel.svg'),
          "titulo" => "PANEL | Home",
          "menu" => $menuHtml,
-         "data" => $assoctData,
+         "data" => $GetRegistros,
+         "paginacion"=>$pag,
          "url" => [
             "cerrarSesion" => Utils::url('/panel/salir'),
             // "resetPassword"=>Utils::url('/Auth/reset')
@@ -59,39 +67,42 @@ class TalentoControllers extends Token
       ];
       return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.talento", $data);
    }
-   // public function home2()
-   // {
-   //    if (!SessionManager::isUserLoggedIn()) {
-   //       header('Location:' . Utils::url("/Auth"));
-   //       exit;
-   //    }
+   public function Busqueda()
+   {
 
-   //    // Crear una instancia de MenuBuilder
-   //    $menu = new MenuBuilder();
+      
+      /** VALIDACION SI EL USUARIO ESTA LOGUEADO O SI NO REDIRECCIONA */
+      if (!SessionManager::isUserLoggedIn()) {
+         header('Location:' . Utils::url("/Auth"));
+         exit;
+      }
+   
+     
+      /** GENERAR EL HTML DEL MENÚ */
+      $menuHtml = $this->Menu->buildMenu();
 
-   //    // Generar el HTML del menú
-   //    $menuHtml = $menu->buildMenu();
-
-   //    // Supongamos que $items_menu obtiene los datos de la base de datos como se muestra en tu captura de pantalla.
-
-   //    // Crear una instancia de MenuBuilder y construir el menú
-
-   //    $assoctData = new TransaccionesModel();
-   //    $assoctData = $assoctData->totales();
-   //    $data = [
-   //       "status" => "success",
-   //       "icono" => Utils::assets('Img/panel/cpanel.svg'),
-   //       "titulo" => "PANEL | Home",
-   //       "menu" => $menuHtml,
-   //       "data" => $assoctData,
-   //       "url" => [
-   //          "cerrarSesion" => Utils::url('/panel/salir'),
-   //          // "resetPassword"=>Utils::url('/Auth/reset')
-   //       ]
-   //    ];
-   //    $header = $this->header[1] = "IEPP | PANEL";
-   //    return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.home", $data, $this->header);
-   // }
+     /** OBTENER LOS REGITROS DE LOS TALENTOS */
+       $GetRegistros=$this->talentoModel->getAll($_SESSION["datos"][0]["id_directiva"]);
+       $paginacion =  new Paginacion(count($GetRegistros), $this->limited, $this->paginas, 1, "");
+       $pag = $paginacion->createLink("pagination justify-content-center");
+      //  echo var_dump($GetRegistros);
+       
+      /** GENERO LA RESPUESTA DEL FETCH DEL JS EN JSONG */
+      $data = [
+         "status" => "success",
+         "icono" => Utils::assets('Img/panel/cpanel.svg'),
+         "titulo" => "PANEL | Home",
+         "menu" => $menuHtml,
+         "data" => $GetRegistros,
+         "paginacion"=>$pag,
+         "url" => [
+            "cerrarSesion" => Utils::url('/panel/salir'),
+            // "resetPassword"=>Utils::url('/Auth/reset')
+         ]
+      ];
+      return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.talento", $data);
+   }
+ 
 
    /**CERRAR SESSION DEL USUARIO */
    public function cerrarSesion()

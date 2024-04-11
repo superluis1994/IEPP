@@ -30,7 +30,6 @@ class IngresosCotrollers extends Token
       $header = $this->header[1] = "NEVERIA | PANEL";
       // unset($_SESSION["datosUser"]);
       // setcookie('Auth', '', 0, '/'); // Se elimina inmediatamente
-      // echo "sorto";
       return Utils::viewPanel("Empleado.Home", $data = [], $this->header);
    }
 

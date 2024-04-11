@@ -20,7 +20,6 @@ class PanelControllers extends Token
    private $header = [];
    private UserModel $UserModel;
    private DatosUserModel $DatosUserModel;
-
    private Encryptar $Encrypto;
 
    public function __construct()
@@ -32,6 +31,7 @@ class PanelControllers extends Token
    }
    public function home()
    {
+     
       if(!SessionManager::isUserLoggedIn()){
          header('Location:'.Utils::url("/Auth"));
          exit;
@@ -41,64 +41,55 @@ class PanelControllers extends Token
          return Utils::view("Error.maintenance", $data=[], $this->header);
         exit;
       }
+      
+      $assoctData = new TransaccionesModel();
+      $assoctData=$assoctData->totales();
+      $data=[
+         "status"=>"success",
+         "icono"=>Utils::assets('Img/panel/cpanel.svg'),
+         "titulo"=>"PANEL | Home",
+         "data"=>$assoctData,
+         "url"=>[
+            "cerrarSesion"=>Utils::url('/panel/salir'),
+            // "resetPassword"=>Utils::url('/Auth/reset')
+         ]
+      ];
+      $header = $this->header[1] = "IEPP | PANEL";
+      return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.home", $data, $this->header);
+   }
+//    public function home2()
+//    {
+//       if(!SessionManager::isUserLoggedIn()){
+//          header('Location:'.Utils::url("/Auth"));
+//          exit;
+//       }
+      
 //       // Crear una instancia de MenuBuilder
 // $menu = new MenuBuilder();
 
 // // Generar el HTML del menú
 // $menuHtml = $menu->buildMenu();
 
-// Supongamos que $items_menu obtiene los datos de la base de datos como se muestra en tu captura de pantalla.
+// // Supongamos que $items_menu obtiene los datos de la base de datos como se muestra en tu captura de pantalla.
 
-// Crear una instancia de MenuBuilder y construir el menú
+// // Crear una instancia de MenuBuilder y construir el menú
       
-      $assoctData = new TransaccionesModel();
-      $assoctData=$assoctData->totales();
-      $data=[
-         "status"=>"success",
-         "icono"=>Utils::assets('Img/panel/cpanel.svg'),
-         "titulo"=>"PANEL | Home",
-         "data"=>$assoctData,
-         "url"=>[
-            "cerrarSesion"=>Utils::url('/panel/salir'),
-            // "resetPassword"=>Utils::url('/Auth/reset')
-         ]
-      ];
-      $header = $this->header[1] = "IEPP | PANEL";
-      return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.home", $data, $this->header);
-   }
-   public function home2()
-   {
-      if(!SessionManager::isUserLoggedIn()){
-         header('Location:'.Utils::url("/Auth"));
-         exit;
-      }
-      
-      // Crear una instancia de MenuBuilder
-$menu = new MenuBuilder();
-
-// Generar el HTML del menú
-$menuHtml = $menu->buildMenu();
-
-// Supongamos que $items_menu obtiene los datos de la base de datos como se muestra en tu captura de pantalla.
-
-// Crear una instancia de MenuBuilder y construir el menú
-      
-      $assoctData = new TransaccionesModel();
-      $assoctData=$assoctData->totales();
-      $data=[
-         "status"=>"success",
-         "icono"=>Utils::assets('Img/panel/cpanel.svg'),
-         "titulo"=>"PANEL | Home",
-         "menu"=>$menuHtml,
-         "data"=>$assoctData,
-         "url"=>[
-            "cerrarSesion"=>Utils::url('/panel/salir'),
-            // "resetPassword"=>Utils::url('/Auth/reset')
-         ]
-      ];
-      $header = $this->header[1] = "IEPP | PANEL";
-      return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.home", $data, $this->header);
-   }
+//       $assoctData = new TransaccionesModel();
+//       $assoctData=$assoctData->totales();
+//       $data=[
+//          "status"=>"success",
+//          "icono"=>Utils::assets('Img/panel/cpanel.svg'),
+//          "titulo"=>"PANEL | Home",
+//          "menu"=>$menuHtml,
+//          "data"=>$assoctData,
+//          "url"=>[
+//             "cerrarSesion"=>Utils::url('/panel/salir'),
+//             // "resetPassword"=>Utils::url('/Auth/reset')
+//          ]
+//       ];
+//       $header = $this->header[1] = "IEPP | PANEL";
+//       return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.home", $data, $this->header);
+//    }
 
    /**CERRAR SESSION DEL USUARIO */
    public function cerrarSesion()

@@ -5,55 +5,33 @@ use App\Setting\Conexion;
 use App\Setting\Encryptar;
 use PDO;
 
-class UserModel
+class TalentoModel
 {
-    private $tabla = "congregacion";
-    private $alias = "cg"; // Alias de la tabla referente al modelo
-    private $primaryKey = "id_congregacion";
+    private $tabla = "`transacciones`";
+    private $alias = "tr"; // Alias de la tabla referente al modelo
+    private $primaryKey = "id_transacciones";
     private $db;
 
     public function __construct()
     {
         $this->db = Conexion::getConexion_();
     }
-
-    // METODO PARA VALIDAR LOS DATOS DEL DIRECTIVO Y RETORNAR LOS DATOS
-    public function validateUser(array $data)
-    {   
-        // $camposArray = array_values($data);
-        // $campos = implode(", ", $camposArray);
-        $stmt = $this->db->prepare("SELECT  cg.id_hermano as id, cg.usuario as dui, cg.password as passwor, dtp.nombre, dtp.apellido,
-                                            tus.titulo as tipoUser
-                                    FROM congregacion cg
-                                    INNER JOIN datos_personales dtp ON dtp.id_congregacion = cg.id_hermano
-                                    INNER JOIN tipo_de_usuario tus ON tus.id_tipo_usuario = cg.tipo_usuario
-                                    WHERE cg.usuario = :USUARIO;");
-                                    $stmt->bindParam(":USUARIO", $data["usuario"], PDO::PARAM_STR);
-                                    $stmt->execute();
-                                    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    public function datosUser(array $data)
-    {   
-        // $camposArray = array_values($data);
-        // $campos = implode(", ", $camposArray);
-        $stmt = $this->db->prepare("SELECT drt.id_directiva, cg.id_hermano as id, cg.usuario as dui, cg.password as passwor, 
-        SUBSTRING_INDEX(dtp.nombre, ' ', 1) AS nombre,
-    SUBSTRING_INDEX(SUBSTRING_INDEX(dtp.apellido, ' ', 1), ' ', -1) AS apellido,
-                                           drt.year, td.titulo,tus.titulo as tipoUser
-                                    FROM {$this->tabla} {$this->alias}
-                                    INNER JOIN datos_personales dtp ON dtp.id_congregacion = cg.id_hermano
-                                    INNER JOIN directivos dr ON dr.id_congregacion  = cg.id_hermano
-                                    INNER JOIN directiva drt ON drt.id_directiva = dr.id_directiva
-                                    INNER JOIN tipo_directiva  td ON td.id_tipo_directiva = drt.id_tipo_directiva
-                                    INNER JOIN tipo_de_usuario tus ON tus.id_tipo_usuario = cg.tipo_usuario
-                                    WHERE cg.usuario = :USUARIO;");
-                                    $stmt->bindParam(":USUARIO", $data["usuario"], PDO::PARAM_STR);
-                                    $stmt->execute();
-                                    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    public function getAll()
+ 
+    public function getAll($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM {$this->tabla} {$this->alias}");
+        $stmt = $this->db->prepare("SELECT tr.id_transacciones as id, CONCAT(SUBSTRING_INDEX(dtp.nombre, ' ', 1), ' ', 
+                                            SUBSTRING_INDEX(SUBSTRING_INDEX(dtp.apellido, ' ', -1), ' ', 1)) as realizado,
+                                            tr.monto as cantidad, tr.fecha_creacion as fecha 
+                                    FROM {$this->tabla} {$this->alias}
+                                    INNER JOIN congregacion cg ON cg.id_hermano = tr.id_realizada_por
+                                    INNER JOIN datos_personales dtp ON dtp.id_congregacion = cg.id_hermano
+                                    INNER JOIN tipo_transacion tt ON tt.id_tipo_transacion = tr.id_tipo_transacion
+                                    INNER JOIN tipo_de_entrada tde ON tde.id_tipo_entrada = tr.id_tipo_entrada
+                                    INNER JOIN directiva dr ON dr.id_directiva = tr.id_directiva
+                                    INNER JOIN tipo_directiva tdr ON tdr.id_tipo_directiva = dr.id_tipo_directiva
+                                    WHERE dr.id_directiva = :ID
+                                    ");
+        $stmt->bindParam(':ID', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

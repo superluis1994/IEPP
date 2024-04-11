@@ -73,19 +73,15 @@
                                             </div>
                                             <div class="col-lg-12 col-12 d-flex justify-content-center">
                                                 <div class="form-check mb-3">
-                                                    <input type="checkbox" class="form-check-input" name="cookie" id="customCheck1">
+                                                    <input type="checkbox" class="form-check-input" name="cookie" id="customCheck1" checked>
                                                     <label class="form-check-label" for="customCheck1">Recuerda las credenciales</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 col-12 d-flex justify-content-center mb-2">
                                                 <a href="#" data-fetch-url="<?php echo htmlspecialchars($data["url"]["resetPassword"]) ?>">¿Ha olvidado tu contraseña?</a>
                                             </div>
-                                            <!-- <div class="d-flex justify-content-center">
-                                                <button type="submit" onclick="formularioEnvio('<?= $utils->url('/Auth/acceder'); ?>','formAccerder')" id="BtnEnvio" class="btn btn-primary">Acceder</button>
-                                            </div> -->
                                             <div class="d-flex justify-content-center">
                                                 <button type="submit"  id="BtnEnvio" class="btn btn-primary">
-                                                <!-- <span class="spinner-border spinner-border-sm" role="status" aria-hidden="false"></span> -->
                                                 Acceder
                                                 </button>
                                             </div>
