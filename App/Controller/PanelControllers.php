@@ -11,8 +11,9 @@ use App\Models\DatosUserModel;
 use App\Setting\Encryptar;
 use App\Setting\SessionManager;
 use App\Models\TransaccionesModel;
+use App\Models\EntradasModel;
 use App\Setting\AuthValidar;
-use App\Setting\MenuBuilder;
+
 
 
 class PanelControllers extends Token
@@ -20,11 +21,13 @@ class PanelControllers extends Token
    private $header = [];
    private UserModel $UserModel;
    private DatosUserModel $DatosUserModel;
+   private EntradasModel $EntradasModel;
    private Encryptar $Encrypto;
 
    public function __construct()
    {
       $this->header[1] = "Auth";
+      $this->EntradasModel = new EntradasModel;
       $this->UserModel = new UserModel;
       $this->DatosUserModel = new DatosUserModel;
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
@@ -41,6 +44,8 @@ class PanelControllers extends Token
          return Utils::view("Error.maintenance", $data=[], $this->header);
         exit;
       }
+
+      $select=$this->EntradasModel->getAll();
       
       $assoctData = new TransaccionesModel();
       $assoctData=$assoctData->totales();
@@ -48,8 +53,11 @@ class PanelControllers extends Token
          "status"=>"success",
          "icono"=>Utils::assets('Img/panel/cpanel.svg'),
          "titulo"=>"PANEL | Home",
+         "select"=>$select,
          "data"=>$assoctData,
          "url"=>[
+            "regitroEntrada"=>Utils::url('/panel/entrada/add'),
+            "regitroSalida"=>Utils::url('/panel/salida/add'),
             "cerrarSesion"=>Utils::url('/panel/salir'),
             // "resetPassword"=>Utils::url('/Auth/reset')
          ]
@@ -57,41 +65,50 @@ class PanelControllers extends Token
       $header = $this->header[1] = "IEPP | PANEL";
       return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.home", $data, $this->header);
    }
-//    public function home2()
-//    {
-//       if(!SessionManager::isUserLoggedIn()){
-//          header('Location:'.Utils::url("/Auth"));
-//          exit;
-//       }
+   public function addEntrada()
+   {
+     
+      // if(!SessionManager::isUserLoggedIn()){
+      //    header('Location:'.Utils::url("/Auth"));
+      //    exit;
+      // }
+      // if($_SESSION["datos"][0]["tipoUser"] == "Cristiano"){
+      //    SessionManager::logoutUser();
+      //    return Utils::view("Error.maintenance", $data=[], $this->header);
+      //   exit;
+      // }
+
+      // $select=$this->EntradasModel->getAll();
       
-//       // Crear una instancia de MenuBuilder
-// $menu = new MenuBuilder();
+      // $assoctData = new TransaccionesModel();
+      // $assoctData=$assoctData->totales();
+      // $data=[
+      //    "status"=>"success",
+      //    "icono"=>Utils::assets('Img/panel/cpanel.svg'),
+      //    "titulo"=>"PANEL | Home",
+      //    "select"=>$select,
+      //    "data"=>$assoctData,
+      //    "url"=>[
+      //       "regitroEntrada"=>Utils::url('panel/entrada/add'),
+      //       "regitroSalida"=>Utils::url('panel/salida/add'),
+      //       "cerrarSesion"=>Utils::url('/panel/salir'),
+      //       // "resetPassword"=>Utils::url('/Auth/reset')
+      //    ]
+      // ];
+ 
+         $response = [
+            "status"=>"success",
+            'titulo' => 'correcto',
+            'msg' => 'Regitro agregado',
+            'url' => Utils::url('/Auth'),
+         ];
 
-// // Generar el HTML del menú
-// $menuHtml = $menu->buildMenu();
 
-// // Supongamos que $items_menu obtiene los datos de la base de datos como se muestra en tu captura de pantalla.
+      echo json_encode($response);
+   
+   }
 
-// // Crear una instancia de MenuBuilder y construir el menú
-      
-//       $assoctData = new TransaccionesModel();
-//       $assoctData=$assoctData->totales();
-//       $data=[
-//          "status"=>"success",
-//          "icono"=>Utils::assets('Img/panel/cpanel.svg'),
-//          "titulo"=>"PANEL | Home",
-//          "menu"=>$menuHtml,
-//          "data"=>$assoctData,
-//          "url"=>[
-//             "cerrarSesion"=>Utils::url('/panel/salir'),
-//             // "resetPassword"=>Utils::url('/Auth/reset')
-//          ]
-//       ];
-//       $header = $this->header[1] = "IEPP | PANEL";
-//       return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.home", $data, $this->header);
-//    }
-
-   /**CERRAR SESSION DEL USUARIO */
+   /** CERRAR SESSION DEL USUARIO */
    public function cerrarSesion()
    {
       $response = [

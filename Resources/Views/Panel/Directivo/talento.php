@@ -1,4 +1,4 @@
-<style>
+<!-- <style>
     .skeleton {
         animation: skeleton-loading 1.5s infinite linear;
         background: linear-gradient(90deg, #f0f0f0, #e0e0e0, #f0f0f0);
@@ -97,7 +97,7 @@
 
 
   
-</style>
+</style> -->
 <div class="conatiner-fluid content-inner mt-n5 py-0 ">
     <div class="row mt-lg-3 mt-3 ">
         <div class="col-md-12 col-lg-12 mt-lg-5 ">
@@ -221,7 +221,7 @@
     </div>
 </div>
 <!-- </div> -->
-<style>
+<!-- <style>
 
 legend.scheduler-border {
     font-size: 1.2em !important;
@@ -327,7 +327,7 @@ legend.scheduler-border {
 }
 
 
-</style>
+</style> -->
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -593,7 +593,8 @@ legend.scheduler-border {
     </div>
 </div> -->
 <!-- /.container-fluid -->
-<script src="<?php echo $_SESSION['home'] ?>assets/js/solicitud.js"></script>
+<!-- <script src="<?php echo $_SESSION['home'] ?>assets/js/solicitud.js"></script> -->
+
 
 <script>
     //     document.querySelectorAll('#clikImagen').forEach(function(btn) {

@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="<?= $utils->assets("Css/dark.min.css") ?>" />
 
     <!-- Customizer Css -->
+    <link rel="stylesheet" href="<?= $utils->assets("Css/utilidades.css") ?>" />
     <link rel="stylesheet" href="<?= $utils->assets("Css/customizer.min.css") ?>" />
 
     <!-- RTL Css -->

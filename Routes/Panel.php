@@ -12,6 +12,7 @@ Route::group('/panel', function () {
     Route::get('/asig/sorto', "PanelControllers@home");
     Route::get('/inicio', "PanelControllers@home");
     Route::get('/salir', "PanelControllers@cerrarSesion");
+    Route::get('/entrada/add', "PanelControllers@addEntrada");
     
 });
 Route::group('/panel/adm/ventas', function () {
@@ -27,4 +28,5 @@ Route::group('/panel/adm/rifas', function () {
 Route::group('/panel/adm/talento', function () {
     Route::get('',"talentoControllers@home");
     Route::get('/',"TalentoControllers@home");
+    Route::get('/add',"TalentoControllers@home");
 });
