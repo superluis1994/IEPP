@@ -3,6 +3,18 @@ namespace App\Setting;
 
 class AntiInyeciones
 {
+
+    public static function LimpiarForm($Post,$tipos){
+        $datosCombinados = [];
+        foreach ($Post as $clave => $valor) {
+            $datosCombinados[$clave] = [
+                'value' => $valor,
+                'type' => $tipos[$clave] ?? 'string' // Suponer string por defecto
+            ];
+        }
+        
+        return self::cleanDataArray($datosCombinados);
+    }
     // Limpiar datos de entrada genéricos
     public static function cleanInput($data)
     {
@@ -11,6 +23,7 @@ class AntiInyeciones
         $data = htmlspecialchars($data); // Convierte caracteres especiales en entidades HTML
         return $data;
     }
+
 
     // Limpiar arrays de datos, como $_POST o $_GET
     // public static function cleanArray($dataArray)
@@ -30,6 +43,9 @@ class AntiInyeciones
             $value = $specs['value'] ?? null;
             // Decidir el método de limpieza basado en el tipo especificado
             switch ($specs['type']) {
+                case 'decimal':
+                    $cleanData[$key] = self::cleanDecimal($value);
+                    break;
                 case 'int':
                     $cleanData[$key] = self::cleanInt($value);
                     break;
@@ -55,6 +71,12 @@ class AntiInyeciones
         $data = htmlspecialchars($data);
         return filter_var($data, FILTER_SANITIZE_NUMBER_INT);
     }
+    public static function cleanDecimal($value) {
+        // FILTER_SANITIZE_NUMBER_FLOAT eliminará todos los caracteres excepto dígitos, un signo menos y un punto decimal.
+        // FILTER_FLAG_ALLOW_FRACTION permitirá que el punto decimal pase a través de la limpieza.
+        return filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    }
+    
 
     // Método específico para limpiar cadenas (strings)
     public static function cleanString($data)

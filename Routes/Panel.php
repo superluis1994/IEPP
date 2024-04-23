@@ -13,6 +13,7 @@ Route::group('/panel', function () {
     Route::get('/inicio', "PanelControllers@home");
     Route::get('/salir', "PanelControllers@cerrarSesion");
     Route::get('/entrada/add', "PanelControllers@addEntrada");
+    Route::get('/salida/add', "PanelControllers@addSalida");
     
 });
 Route::group('/panel/adm/ventas', function () {

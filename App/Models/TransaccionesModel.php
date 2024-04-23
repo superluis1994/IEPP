@@ -37,6 +37,57 @@ class TransaccionesModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // public function salidaDinero($tipo_entrada)
+    // {
+    //     // SQL del procedimiento almacenado con placeholders para los parámetros
+    //     $columns = implode(", ", array_keys($tipo_entrada));
+    //     $values = ":" . implode(", :", array_keys($tipo_entrada));
+      
+    // // Preparar la llamada al procedimiento almacenado
+    // $stmt = $this->db->prepare("CALL VerificarYRegistrarTransaccionSalida({$columns} )");
+
+    // // Vincular dinámicamente los parámetros usando un bucle foreach
+    // foreach ($tipo_entrada as $param => $value) {
+    //     $stmt->bindParam(':'.$param, $tipo_entrada[$param]);
+    // }
+
+    // // Ejecutar la llamada al procedimiento almacenado
+    // $stmt->execute();
+    // // Obtener el resultado de la operación
+    // $result = $this->db->query("SELECT @transaccion_exitosa AS transaccionExitosa")->fetch(PDO::FETCH_ASSOC);
+
+    // // Devolver el resultado
+    // return $result;
+    // }
+
+    public function salidaDinero($tipo_entrada)
+{
+    // Asumir que conocemos las claves y que corresponden a los parámetros del procedimiento
+    $placeholders = implode(", ", array_map(function($key) {
+        return ":" . $key;
+    }, array_keys($tipo_entrada)));
+
+    // SQL del procedimiento almacenado con placeholders dinámicos
+    $sql = "CALL VerificarYRegistrarTransaccionSalida($placeholders, @transaccion_exitosa)";
+
+    // Preparar la llamada al procedimiento almacenado
+    $stmt = $this->db->prepare($sql);
+
+    // Vincular dinámicamente los parámetros usando un bucle foreach
+    foreach ($tipo_entrada as $param => $value) {
+        $stmt->bindParam(':'.$param, $tipo_entrada[$param]);
+    }
+
+    // Ejecutar la llamada al procedimiento almacenado
+    $stmt->execute();
+
+    // Obtener el resultado de la operación
+    $result = $this->db->query("SELECT @transaccion_exitosa AS transaccionExitosa")->fetch(PDO::FETCH_ASSOC);
+
+    // Devolver el resultado
+    return $result;
+}
+
     public function getAll()
     {
         $stmt = $this->db->prepare("SELECT * FROM {$this->tabla} {$this->alias}");

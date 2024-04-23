@@ -5,3 +5,59 @@ php_value session.auto_start 1
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L,QSA] 
+Options -Indexes
+
+
+#RewriteEngine On
+# Elimina el parámetro i=1 de las URLs
+#RewriteCond %{QUERY_STRING} ^i=1$
+#RewriteRule ^(.*)$ $1? [R=301,L]
+
+
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+#Desactivar la ejecución de scripts en directorios de carga
+#Si tienes directorios donde los usuarios pueden subir archivos, asegúrate de que no puedan ejecutar scripts en esos directorios.
+# Deshabilitar la ejecución de scripts en un directorio específico
+# Deshabilitar la ejecución de scripts en un directorio específico
+<FilesMatch "\.(php3|php4|phtml|pl|py|jsp|asp|htm|shtml|sh|cgi)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+#Proteger contra inyección de tipos de contenido
+#Esta regla ayuda a prevenir ataques donde se inyecta un tipo de contenido diferente al esperado.
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+#Habilitar la protección XSS
+#Esta regla activa la protección incorporada en los navegadores contra ataques de cross-site scripting (XSS).
+<IfModule mod_headers.c>
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+#Prevenir clickjacking
+#Esta cabecera asegura que tu página no pueda ser puesta en un <iframe> de otro sitio, lo cual es una técnica usada en algunos ataques de clickjacking.
+<IfModule mod_headers.c>
+    Header always append X-Frame-Options DENY
+</IfModule>
+
+
+#Establecer políticas de seguridad de contenido
+#Puedes agregar cabeceras que restrinjan los recursos que el navegador carga, lo que ayuda a prevenir ataques de tipo "man-in-the-middle".
+#<IfModule mod_headers.c>
+ #   Header set Content-Security-Policy "default-src 'self';"
+#</IfModule>
+
+
+
+

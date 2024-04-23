@@ -1,3 +1,4 @@
+
 <div class="conatiner-fluid content-inner  mt-n5 py-0 ">
    <div class="row mt-lg-3">
       <div class="col-md-12 col-lg-12 mt-lg-5">
@@ -454,7 +455,7 @@
                   <div class="col-sm-12 col-md-12">
                      <div class="form-group">
                         <label class="form-label">TIPO DE ENTRAD2</label>
-                     <select class="form-select mb-3 shadow-none" required oninvalid="this.setCustomValidity('Por favor, selecionar una entrada.')" onchange="this.setCustomValidity('')" title="Por favor, selecionar una entrada">
+                     <select class="form-select mb-3 shadow-none" name="tipoEntrada" required oninvalid="this.setCustomValidity('Por favor, selecionar una entrada.')" onchange="this.setCustomValidity('')" title="Por favor, selecionar una entrada">
                         <option value="" selected>...</option>
                               <?php 
                                   foreach ($data["select"] as $key => $value){       
@@ -507,14 +508,14 @@
          </div>
 
 
-          <form method="POST" id="formSalidad">
+          <form method="POST" id="formSalidad" data-fetch-url="<?=$data["url"]["regitroSalida"]?>">
 
             <div class="modal-body">
                <div class="row">
                   <div class="col-sm-12 col-md-12">
                      <div class="form-group">
                         <label class="form-label">TIPO DE ENTRAD2</label>
-                     <select class="form-select mb-3 shadow-none" required oninvalid="this.setCustomValidity('Por favor, selecionar una entrada.')" onchange="this.setCustomValidity('')" title="Por favor, selecionar una entrada">
+                     <select class="form-select mb-3 shadow-none" name="tipoSalida" required oninvalid="this.setCustomValidity('Por favor, selecionar una entrada.')" onchange="this.setCustomValidity('')" title="Por favor, selecionar una entrada">
                         <option value="" selected>...</option>
                               <?php 
                                   foreach ($data["select"] as $key => $value){       
@@ -548,7 +549,7 @@
             </div>
          </div>
          <div class="modal-footer">
-            <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+            <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal" id="btnSalidaCerra">CANCELAR</button>
             <button type="submit" class="btn btn-primary" id="BtnEnvio">REGISTRAR</button>
          </div>
       </form>
@@ -638,5 +639,5 @@ body, html {
 
 </style>
 
-<script src="<?= $utils->assets("Js/agregar/entrada.js"); ?>"></script>
+<script src="<?= $utils->assets("Js/agregar/trasacciones.js"); ?>"></script>
 
