@@ -58,6 +58,7 @@ class PanelControllers extends Token
          "status"=>"success",
          "icono"=>Utils::assets('Img/panel/cpanel.svg'),
          "titulo"=>"PANEL | Home",
+         "posicion"=>"HOME",
          "select"=>$select,
          "data"=>$assoctData,
          "url"=>[

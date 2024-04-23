@@ -43,21 +43,18 @@ class Paginacion
 
         if ($totalPages > 1) {
             $seguinteActual=$itemActual == $this->recordsPerPage ? 9: $SiguenteGrup-11;
-            $links.=" <div class='position-absolute start-0 bottom-4'>
-            <span class='text-muted p-4'>Mostrando  del ".( $incial=$itemActual !=1 ? ($itemActual*$this->limitedRecord)-$this->limitedRecord+1:1)." al ".$itemActual*$this->limitedRecord."</span>
-          </div>";
             $links .= "
             <ul class='$pageLinkClass'>";
             $links .= " 
-             <li class='page-item cursor-pointer'>
-                        <a class='page-link $disabledClassInicio' onclick='getSolicitud($seguinteActual,$AnteriorGrup);' aria-label='Previous'>
-                            <span aria-hidden='true'>Previous</span>
+            <li class='page-item cursor-pointer'>
+            <a class='page-link $disabledClassInicio' onclick='getSolicitud($seguinteActual,$AnteriorGrup);' aria-label='Previous'>
+            <span aria-hidden='true'>Previous</span>
                         </a>
-                  </li>";
-            for ($i = 1; $i <= $totalPages; $i++) {
-                if($i>=$grupPage && $i<($grupPage+$this->recordsPerPage) ){
+                        </li>";
+                        for ($i = 1; $i <= $totalPages; $i++) {
+                            if($i>=$grupPage && $i<($grupPage+$this->recordsPerPage) ){
                     $active = $i==$itemActual ? "active" : "";
-
+                    
                     $links .= "<li class='page-item cursor-pointer $active'  btn-paginacion><a class='page-link' onclick='getSolicitud($i,$grupPage);'>$i</a></li>";
                 }
             }
@@ -65,11 +62,14 @@ class Paginacion
             $links .= " <li class='page-item cursor-pointer'>
                 <a class='page-link $disabledClassFinal'  onclick='getSolicitud($AnteriorActual,$SiguenteGrup);' aria-label='Next'>
                     <span aria-hidden='true'>Next</span>
-                </a>
-             </li>";
-            $links .= "</ul>
-            </div>";
-        }
-        return $links;
-    }
+                    </a>
+                    </li>";
+                    $links .= "</ul>
+                    </div>";
+                    $links.=" <div class='col-12 text-center'>
+                    <span class='text-muted p-4 font-weight-bold text-uppercase'>Mostrando  del ".( $incial=$itemActual !=1 ? ($itemActual*$this->limitedRecord)-$this->limitedRecord+1:1)." al ".$itemActual*$this->limitedRecord."</span>
+                    </div>";
+                }
+                return $links;
+            }
 }

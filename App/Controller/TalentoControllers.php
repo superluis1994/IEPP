@@ -27,8 +27,8 @@ class TalentoControllers
    {
       /** CREAR UNA INSTANCIA DE LOS OBJETOS */
       $this->header[1] = "Talento";
-      $this->paginas = 10;
-      $this->limited =2;
+      $this->paginas = 6;
+      $this->limited = 6;
       $this->Menu = new MenuBuilder();
       $this->talentoModel = new TalentoModel();
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
@@ -47,8 +47,9 @@ class TalentoControllers
       $menuHtml = $this->Menu->buildMenu();
 
      /** OBTENER LOS REGITROS DE LOS TALENTOS */
-       $GetRegistros=$this->talentoModel->getAll($_SESSION["datos"][0]["id_directiva"]);
-       $paginacion =  new Paginacion(count($GetRegistros), $this->limited, $this->paginas, 1, "");
+       $GetRegistros=$this->talentoModel->getAll($_SESSION["datos"][0]["id_directiva"],NULL,$this->limited);
+       $count=$this->talentoModel->getAllCount($_SESSION["datos"][0]["id_directiva"],"INGRESO");
+       $paginacion =  new Paginacion($count[0]["total"], $this->limited, $this->paginas, 1, "");
        $pag = $paginacion->createLink("pagination justify-content-center");
       //  echo var_dump($GetRegistros);
        
@@ -57,6 +58,7 @@ class TalentoControllers
          "status" => "success",
          "icono" => Utils::assets('Img/panel/cpanel.svg'),
          "titulo" => "PANEL | Home",
+         "posicion"=>"TALENTO",
          "menu" => $menuHtml,
          "data" => $GetRegistros,
          "paginacion"=>$pag,
@@ -82,8 +84,9 @@ class TalentoControllers
       $menuHtml = $this->Menu->buildMenu();
 
      /** OBTENER LOS REGITROS DE LOS TALENTOS */
-       $GetRegistros=$this->talentoModel->getAll($_SESSION["datos"][0]["id_directiva"]);
-       $paginacion =  new Paginacion(count($GetRegistros), $this->limited, $this->paginas, 1, "");
+       $GetRegistros=$this->talentoModel->getAll($_SESSION["datos"][0]["id_directiva"],NULL,$this->limited);
+       $count=$this->talentoModel->getAllCount($_SESSION["datos"][0]["id_directiva"],"INGRESO");
+       $paginacion =  new Paginacion($count[0]["total"], $this->limited, $this->paginas, 1, "");
        $pag = $paginacion->createLink("pagination justify-content-center");
       //  echo var_dump($GetRegistros);
        
