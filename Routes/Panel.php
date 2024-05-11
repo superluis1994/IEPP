@@ -7,8 +7,9 @@ use Core\Utils;
 
 
 Route::group('/panel', function () {
-    Route::get('', "PanelControllers@home");
-    Route::get('/', "PanelControllers@home");
+    // Route::get('', "PanelControllers@home");
+    Route::get('/home', "PanelControllers@home");
+    // Route::get('/home/', "PanelControllers@home");
     Route::get('/asig/sorto', "PanelControllers@home");
     Route::get('/inicio', "PanelControllers@home");
     Route::get('/salir', "PanelControllers@cerrarSesion");
@@ -30,4 +31,6 @@ Route::group('/panel/adm/talento', function () {
     Route::get('',"talentoControllers@home");
     Route::get('/',"TalentoControllers@home");
     Route::get('/add',"TalentoControllers@home");
+    // Route::post('/trasaccion/{tipo}',"TalentoControllers@home");
+    Route::post('/paginacion',"TalentoControllers@home");
 });

@@ -17,7 +17,7 @@ class TalentoModel
         $this->db = Conexion::getConexion_();
     }
  
-    public function getAll($id, $offset=NULL,$limited)
+    public function getAll($id,$tipo,$offset=NULL,$limited)
     {
         
         $stmt = $this->db->prepare("SELECT tr.id_transacciones as id, CONCAT(SUBSTRING_INDEX(dtp.nombre, ' ', 1), ' ', 
@@ -30,9 +30,10 @@ class TalentoModel
                                     INNER JOIN tipo_de_entrada tde ON tde.id_tipo_entrada = tr.id_tipo_entrada
                                     INNER JOIN directiva dr ON dr.id_directiva = tr.id_directiva
                                     INNER JOIN tipo_directiva tdr ON tdr.id_tipo_directiva = dr.id_tipo_directiva
-                                    WHERE dr.id_directiva = :ID
+                                    WHERE dr.id_directiva = :ID AND tr.id_tipo_transacion = :TIPO
                                     LIMIT $limited");
         $stmt->bindParam(':ID', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':TIPO', $tipo, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -42,9 +43,9 @@ class TalentoModel
                                     FROM {$this->tabla} {$this->alias}
                                      INNER JOIN tipo_transacion tt ON tt.id_tipo_transacion = tr.id_tipo_transacion
                                      INNER JOIN directiva dr ON dr.id_directiva = tr.id_directiva
-                                     WHERE tt.titulo =:TIPO AND dr.id_directiva = :ID");
+                                     WHERE tr.id_tipo_transacion =:TIPO AND dr.id_directiva = :ID");
         $stmt->bindParam(':ID', $id, PDO::PARAM_INT);
-        $stmt->bindParam(':TIPO', $tipo, PDO::PARAM_STR);
+        $stmt->bindParam(':TIPO', $tipo, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

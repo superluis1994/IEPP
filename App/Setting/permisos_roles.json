@@ -1,0 +1,52 @@
+{
+    "hermano": {
+        "1": ["lectura"],
+        "2": ["lectura"],
+        "3": ["lectura"],
+        "4": ["lectura"],
+        "5": ["lectura"],
+        "23": ["lectura"],
+        "33": ["lectura"],
+        "43": ["lectura"]
+    },
+    "directivo": {
+        "1": ["lectura", "escritura"],
+        "2": ["lectura", "escritura"],
+        "3": ["lectura", "escritura"],
+        "4": ["lectura", "escritura"],
+        "5": ["lectura", "escritura"],
+        "11": ["lectura", "escritura"],
+        "12": ["lectura", "escritura"],
+        "13": ["lectura", "escritura"],
+        "21": ["lectura", "escritura"],
+        "22": ["lectura", "escritura"],
+        "23": ["lectura", "escritura"],
+        "31": ["lectura", "escritura"],
+        "32": ["lectura", "escritura"],
+        "33": ["lectura", "escritura"],
+        "41": ["lectura", "escritura"],
+        "42": ["lectura", "escritura"],
+        "43": ["lectura", "escritura"]
+    },
+    "admin": {
+        "1": ["lectura", "escritura"],
+        "2": ["lectura", "escritura"],
+        "3": ["lectura", "escritura"],
+        "4": ["lectura", "escritura"],
+        "5": ["lectura", "escritura"],
+        "11": ["lectura", "escritura"],
+        "12": ["lectura", "escritura"],
+        "13": ["lectura", "escritura"],
+        "21": ["lectura", "escritura"],
+        "22": ["lectura", "escritura"],
+        "23": ["lectura", "escritura"],
+        "31": ["lectura", "escritura"],
+        "32": ["lectura", "escritura"],
+        "33": ["lectura", "escritura"],
+        "41": ["lectura", "escritura"],
+        "42": ["lectura", "escritura"],
+        "43": ["lectura", "escritura"],
+        "51": ["lectura", "escritura"],
+        "52": ["lectura", "escritura"]
+    }
+}

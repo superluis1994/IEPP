@@ -22,6 +22,7 @@ class ComposerStaticInit20fad51902f91e7fd3039e016a6556b5
         ),
         'P' => 
         array (
+            'Psr\\SimpleCache\\' => 16,
             'PhpOption\\' => 10,
         ),
         'M' => 
@@ -39,6 +40,7 @@ class ComposerStaticInit20fad51902f91e7fd3039e016a6556b5
         'D' => 
         array (
             'Dotenv\\' => 7,
+            'Detection\\' => 10,
         ),
     );
 
@@ -54,6 +56,10 @@ class ComposerStaticInit20fad51902f91e7fd3039e016a6556b5
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'Psr\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
         'PhpOption\\' => 
         array (
@@ -74,6 +80,10 @@ class ComposerStaticInit20fad51902f91e7fd3039e016a6556b5
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
+        'Detection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/src',
         ),
     );
 

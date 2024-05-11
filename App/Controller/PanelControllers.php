@@ -29,6 +29,7 @@ class PanelControllers extends Token
 
    public function __construct()
    {
+     
       $this->header[1] = "Auth";
       $this->EntradasModel = new EntradasModel;
       $this->UserModel = new UserModel;
@@ -39,11 +40,14 @@ class PanelControllers extends Token
    }
    public function home()
    {
+      // session_destroy();
+      
      
       if(!SessionManager::isUserLoggedIn()){
          header('Location:'.Utils::url("/Auth"));
          exit;
       }
+
       if($_SESSION["datos"][0]["tipoUser"] == "Cristiano"){
          SessionManager::logoutUser();
          return Utils::view("Error.maintenance", $data=[], $this->header);

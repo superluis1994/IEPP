@@ -38,7 +38,7 @@ class UserModel
         // $campos = implode(", ", $camposArray);
         $stmt = $this->db->prepare("SELECT drt.id_directiva, cg.id_hermano as id, cg.usuario as dui, cg.password as passwor, 
         SUBSTRING_INDEX(dtp.nombre, ' ', 1) AS nombre,
-    SUBSTRING_INDEX(SUBSTRING_INDEX(dtp.apellido, ' ', 1), ' ', -1) AS apellido,
+         SUBSTRING_INDEX(SUBSTRING_INDEX(dtp.apellido, ' ', 1), ' ', -1) AS apellido,
                                            drt.year, td.titulo,tus.titulo as tipoUser
                                     FROM {$this->tabla} {$this->alias}
                                     INNER JOIN datos_personales dtp ON dtp.id_congregacion = cg.id_hermano
@@ -92,55 +92,121 @@ class UserModel
 
     // }
 
-    public function createUsuario(array $data)
-    {
-        // Iniciar la transacción
-        $this->db->beginTransaction();
+    // public function createUsuario(array $data , array $permisos)
+    // {
+    //     // Iniciar la transacción
+    //     $this->db->beginTransaction();
         
-        try {
-            $INSTANCIA= new Encryptar($_ENV["JWT_SECRET_KEY"]);
-            $passwordEncry = $INSTANCIA->encrypt($data["contraseña"]);
+    //     try {
+    //         $INSTANCIA= new Encryptar($_ENV["JWT_SECRET_KEY"]);
+    //         $passwordEncry = $INSTANCIA->encrypt($data["contraseña"]);
     
-            $stmt = $this->db->prepare("INSERT INTO {$this->tabla} (usuario,`password`,email,tipo_usuario,`status`) 
-                                        VALUES (:USUARIO,:PASSWOR,:EMAIL,:TIPO,:STATU)");
-            $stmt->bindValue(":USUARIO", $data["dui"]);
-            $stmt->bindValue(":PASSWOR", $passwordEncry);
-            $stmt->bindValue(":EMAIL", $data["email"]);
-            $stmt->bindValue(":TIPO", 3);
-            $stmt->bindValue(":STATU", 1);
+    //         $stmt = $this->db->prepare("INSERT INTO {$this->tabla} (usuario,`password`,email,tipo_usuario,`status`) 
+    //                                     VALUES (:USUARIO,:PASSWOR,:EMAIL,:TIPO,:STATU)");
+    //         $stmt->bindValue(":USUARIO", $data["dui"]);
+    //         $stmt->bindValue(":PASSWOR", $passwordEncry);
+    //         $stmt->bindValue(":EMAIL", $data["email"]);
+    //         $stmt->bindValue(":TIPO", 3);
+    //         $stmt->bindValue(":STATU", 1);
             
-            // Ejecutar la consulta de inserción
-            $stmt->execute();
+    //         // Ejecutar la consulta de inserción
+    //         $stmt->execute();
     
-            // Obtener el ID generado por la inserción
-            $insertedId = $this->db->lastInsertId();
+    //         // Obtener el ID generado por la inserción
+    //         $insertedId = $this->db->lastInsertId();
             
-            // Aquí puedes usar $insertedId para hacer otra inserción o cualquier operación necesaria
-            $anotherStmt = $this->db->prepare("INSERT INTO datos_personales (nombre, apellido, telefono, id_congregacion) VALUES (:NOMBRE, :APELLIDOS, :TELEFONO, :IDCONGREGACION)");
-            $anotherStmt->bindValue(":NOMBRE", strtoupper($data["nombre"]));
-            $anotherStmt->bindValue(":APELLIDOS", strtoupper($data["apellidos"]));
-            $anotherStmt->bindValue(":TELEFONO", "+503 ".$data["telefono"]);
-            $anotherStmt->bindValue(":IDCONGREGACION", $insertedId); // Asegúrate de que esta es la columna correcta y el valor que deseas relacionar
-            $success = $anotherStmt->execute();
+    //         // Aquí puedes usar $insertedId para hacer otra inserción o cualquier operación necesaria
+    //         $anotherStmt = $this->db->prepare("INSERT INTO datos_personales (nombre, apellido, telefono, id_congregacion) VALUES (:NOMBRE, :APELLIDOS, :TELEFONO, :IDCONGREGACION)");
+    //         $anotherStmt->bindValue(":NOMBRE", strtoupper($data["nombre"]));
+    //         $anotherStmt->bindValue(":APELLIDOS", strtoupper($data["apellidos"]));
+    //         $anotherStmt->bindValue(":TELEFONO", "+503 ".$data["telefono"]);
+    //         $anotherStmt->bindValue(":IDCONGREGACION", $insertedId); // Asegúrate de que esta es la columna correcta y el valor que deseas relacionar
+    //         $success = $anotherStmt->execute();
     
-            // Verificar que la última inserción fue exitosa
-            if ($success) {
-                // Si todo ha ido bien, commit la transacción
-                $this->db->commit();
-                // Retornar true indicando éxito
-                return true;
-            } else {
-                // Si la inserción falló, hacer rollback y lanzar una excepción
-                $this->db->rollback();
-                throw new \Exception("Error al insertar en datos_personales.");
-            }
-        } catch (\Exception $e) {
-            // Si algo sale mal en general, revertir (rollback) la transacción
-            $this->db->rollback();
-            // Puedes decidir si lanzar la excepción o manejar el error de otra manera
-            throw $e;
+    //         // Verificar que la última inserción fue exitosa
+    //         if ($success) {
+    //             // Si todo ha ido bien, commit la transacción
+    //             $this->db->commit();
+    //             // Retornar true indicando éxito
+    //             return true;
+    //         } else {
+    //             // Si la inserción falló, hacer rollback y lanzar una excepción
+    //             $this->db->rollback();
+    //             throw new \Exception("Error al insertar en datos_personales.");
+    //         }
+    //     } catch (\Exception $e) {
+    //         // Si algo sale mal en general, revertir (rollback) la transacción
+    //         $this->db->rollback();
+    //         // Puedes decidir si lanzar la excepción o manejar el error de otra manera
+    //         throw $e;
+    //     }
+    // }
+
+    public function createUsuario(array $data, array $permisos,$tipoUser)
+{
+    // Iniciar la transacción
+    $this->db->beginTransaction();
+    
+    try {
+        $INSTANCIA = new Encryptar($_ENV["JWT_SECRET_KEY"]);
+        $passwordEncry = $INSTANCIA->encrypt($data["contraseña"]);
+
+        $stmt = $this->db->prepare("INSERT INTO {$this->tabla} (usuario,`password`,email,tipo_usuario,`status`) 
+                                    VALUES (:USUARIO,:PASSWOR,:EMAIL,:TIPO,:STATU)");
+        $stmt->bindValue(":USUARIO", $data["dui"]);
+        $stmt->bindValue(":PASSWOR", $passwordEncry);
+        $stmt->bindValue(":EMAIL", $data["email"]);
+        $stmt->bindValue(":TIPO", $tipoUser);  // Aquí puedes considerar ajustar según el tipo de usuario si es necesario
+        $stmt->bindValue(":STATU", 1);
+        
+        // Ejecutar la consulta de inserción
+        $stmt->execute();
+
+        // Obtener el ID generado por la inserción
+        $insertedId = $this->db->lastInsertId();
+        
+        // Inserción de datos personales
+        $anotherStmt = $this->db->prepare("INSERT INTO datos_personales (nombre, apellido, telefono, id_congregacion) VALUES (:NOMBRE, :APELLIDOS, :TELEFONO, :IDCONGREGACION)");
+        $anotherStmt->bindValue(":NOMBRE", strtoupper($data["nombre"]));
+        $anotherStmt->bindValue(":APELLIDOS", strtoupper($data["apellidos"]));
+        $anotherStmt->bindValue(":TELEFONO", "+503 ".$data["telefono"]);
+        $anotherStmt->bindValue(":IDCONGREGACION", $insertedId);
+        $anotherStmt->execute();
+
+         // Suponiendo que necesitas determinar si insertar en directivos
+         if ($tipoUser == 2) { // Ajusta esta condición según tus necesidades
+            $directivosStmt = $this->db->prepare("INSERT INTO directivos (id_directiva, id_congregacion,usuario_creacion, status) VALUES (:IDDIRECTIVA, :IDCONGREGACION,:USERCREACION,:STATUS)");
+            $directivosStmt->bindValue(":IDDIRECTIVA", $data["directiva"]); // Suponiendo que `id_directiva` usa el mismo ID
+            $directivosStmt->bindValue(":IDCONGREGACION", $insertedId); // Asumiendo que es el mismo ID, ajusta según sea necesario
+            $directivosStmt->bindValue(":STATUS", 1); // Estado activo por ejemplo
+            $directivosStmt->bindValue(":USERCREACION",$insertedId);
+            $directivosStmt->execute();
         }
+
+        // Asignar permisos predeterminados
+        foreach ($permisos as $idMenu => $permisos) {
+            foreach ($permisos as $tipoPermiso) {
+                $permisosStmt = $this->db->prepare("INSERT INTO permisos_user (id_hermano, id_menu, tipo_permiso) VALUES (:IDHERMANO, :IDMENU, :TIPOPERMISO)");
+                $permisosStmt->bindValue(":IDHERMANO", $insertedId);
+                $permisosStmt->bindValue(":IDMENU", $idMenu);
+                $permisosStmt->bindValue(":TIPOPERMISO", $tipoPermiso);
+                
+                $permisosStmt->execute();
+            }
+        }
+
+        // Si todo ha ido bien, commit la transacción
+        $this->db->commit();
+        // Retornar true indicando éxito
+        return true;
+    } catch (\Exception $e) {
+        // Si algo sale mal en general, revertir (rollback) la transacción
+        $this->db->rollback();
+        // Puedes decidir si lanzar la excepción o manejar el error de otra manera
+        throw $e;
     }
+}
+
     
 
     public function create(array $data)

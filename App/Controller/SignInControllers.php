@@ -62,13 +62,14 @@ class SignInControllers extends Token
         $dui = $this->inyecciones->cleanString($_POST['dui']);
        $FrondPassword = $this->inyecciones->cleanString($_POST['password']);
       $respuesta = $this->UserModel->validateUser(["usuario"=>$dui]);
-        @$Dbpasword= $this->Encrypto->decrypt($respuesta[0]["passwor"]);
-
-       if(count($respuesta)>0){
+      @$Dbpasword= $this->Encrypto->decrypt($respuesta[0]["passwor"]);
+      
+      if(count($respuesta)>0){
           if($FrondPassword == $Dbpasword){
-            if($respuesta[0]["tipoUser"] == "Directivo"){
-            $respuesta = $this->UserModel->datosUser(["usuario"=>$dui]);
-            SessionManager::loginUser($respuesta);
+             if($respuesta[0]["tipoUser"] == "Directivo"){
+                $respuesta = $this->UserModel->datosUser(["usuario"=>$dui]);
+               //  echo  var_dump($respuesta);
+                SessionManager::loginUser($respuesta);
 
             }else{
                SessionManager::loginUser($respuesta);
@@ -78,7 +79,7 @@ class SignInControllers extends Token
                "status"=>"success",
                'titulo' => 'Datos correctos',
                'msg' => 'En unos segundos sera redireccionado',
-               'url' => Utils::url('/panel'),
+               'url' => Utils::url('/panel/home'),
             ];
          }else{
             $response = [

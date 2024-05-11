@@ -98,14 +98,48 @@
 
   
 </style> -->
+
+
+<style>
+    /* Estilos para el ítem seleccionado */
+.active-card {
+  background-color: #007bff; /* Color de fondo azul de Bootstrap */
+  color: white; /* Texto en color blanco para mejor contraste */
+  border: 2px solid #0056b3; /* Borde más oscuro para resaltar */
+}
+
+/* Estilos para el texto dentro del ítem seleccionado para garantizar que sea visible */
+
+/* Opcional: una sombra para dar la impresión de que el ítem está elevado */
+.active-card {
+  box-shadow: 0 4px 8px rgba(235, 165, 3, 0.5); /* Sombra azul suave */
+}
+
+/* Estilo para revertir al color normal cuando el ítem no está seleccionado */
+.swiper-slide {
+  background-color: #f8f9fa; /* Color de fondo estándar */
+  color: black; /* Color de texto estándar */
+  border: 1px solid #dee2e6; /* Borde estándar */
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Transición suave para los cambios de estado */
+}
+
+/* Estilos para los enlaces dentro de los ítems para que coincidan con el estado seleccionado */
+.swiper-slide a {
+  color: inherit; /* Hereda el color del elemento padre */
+  text-decoration: none; /* No muestra subrayado en los enlaces */
+}
+
+</style>
+<!-- <?php echo var_dump($GetUrl); ?> -->
 <div class="conatiner-fluid content-inner mt-n5 py-0 ">
-    <div class="row mt-lg-3 mt-3 ">
+    <div class="row mt-lg-3 ">
         <div class="col-md-12 col-lg-12 mt-lg-5 ">
             <div class="row row-cols-1">
                 <div class="overflow-hidden d-slider1 ">
                     <ul class="p-0 m-0 mb-2 swiper-wrapper list-inline lista ">
-                        <li class='swiper-slide card card-slide active-card' data-aos="fade-up" data-aos-delay="700">
-                            <a href="">
+                        
+                        <li class="swiper-slide card card-slide <?= ($GetUrl[6] == 1 || $GetUrl[6]=="") ? 'active-card' : '' ?>" data-aos="fade-up" data-aos-delay="700">
+                            <a href="<?=$data["url"]["trasaccion"]?>/1">
                                 <div class="card-body">
 
                                     <div class="progress-widget">
@@ -115,17 +149,19 @@
                                             </svg>
                                         </div>
                                         <div class="progress-detail">
-                                            <p class="mb-2">Talento Entrada</p>
-                                            <h4 class="counter" style="visibility: visible;">2.6</h4>
+                                            <p class="mb-2">ENTRADA</p>
+                                            <h4 class="counter" style="visibility: visible;">
+                                            $2.6
+                                            </h4>
                                         </div>
                                     </div>
                                 </div>
                             </a>
                         </li>
-                        <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="700">
-                            <a href="">
-                                <div class="card-body">
-                                    <div class="progress-widget">
+                        <li class="swiper-slide card card-slide <?= ($GetUrl[6] == 2) ? 'active-card' : '' ?>" data-aos="fade-up" data-aos-delay="700">
+                            <a href="<?=$data["url"]["trasaccion"]?>/2">
+                                <div class="card-body ">
+                                    <div class="progress-widget ">
                                         <div id="circle-progress-01" class="text-center circle-progress-01 circle-progress circle-progress-primary" data-min-value="0" data-max-value="100" data-value="90" data-type="percent">
                                             <svg class="card-slie-arrow icon-24" width="24" viewBox="0 0 24 24">
                                                 <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
@@ -133,9 +169,9 @@
                                         </div>
 
                                         <div class="progress-detail">
-                                            <p class="mb-2">Talento Salida</p>
+                                            <p class="mb-2">SALIDA</p>
                                             <h4 class="counter">
-                                                2.6
+                                                $2.6
                                             </h4>
                                         </div>
                                     </div>
@@ -160,7 +196,7 @@
                                     <th>FECHA REGISTRO</th>
                                     <th class="col-4">
                                         <div class="input-group search-input">
-                                            <input type="search" class="form-control" id="inputBuscar" data-url="" placeholder="Buscar...">
+                                            <input type="search" class="form-control" id="inputBuscar" data-url="<?=$data["url"]["trasaccion"]?>" data-codicion="<?=$data["trasaccionTipo"]?>"  placeholder="Buscar...">
                                             <button class="btn btn-outline-primary btn-accion" type="button" id="btn_search">Buscar</button>
                                         </div>
                                     </th>
@@ -507,6 +543,7 @@ legend.scheduler-border {
 
 
 
+<script src="<?= $utils->assets("Js/talento/index.js"); ?>"></script>
 
 
 
@@ -522,91 +559,3 @@ legend.scheduler-border {
 
 
 
-
-
-
-
-<!-- Modal -->
-<!-- <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">ADM SOLICITUD</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" id="cerrarModal" data-cerra="cerrar" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row"> -->
-<!-- <div class="col-4">
-                        <div class="card">
-                            <img src="" alt="...">
-                        </div>
-                    </div> -->
-<!-- <div class="col-4">
-                        <div class="card">
-                            <img src="" class="img-fluid rounded-start" alt="...">
-                            <button class="btn-ver-completa" style="display: none;">Completa</button>
-                        </div>
-                        </div>
-
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <label class="form-label">Tipo de solicitud</label>
-                                    <input type="text" class="form-control" name="descripcion_tipo_solicitud" >
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label class="form-label">Nombre del solicitante</label>
-                                    <input type="text" class="form-control" name="nombre" >
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label class="form-label">Apellido del solicitante</label>
-                                    <input type="text" class="form-control" name="apellido" >
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label class="form-label">Fecha de solicitud</label>
-                                    <input type="text" class="form-control" name="fecha_envio" >
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label class="form-label">Hora de solicitud</label>
-                                    <input type="text" class="form-control" name="uname">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="modal-footer"> -->
-<!-- <button type="button" class="btn btn-secondary"  data-cerra="" >Cancelar</button> -->
-<!-- <button type="button" class="btn btn-primary" data-Url="'<?php echo $_SESSION['home'] ?>/sorto'">Actualizar</button>
-            </div>
-        </div>
-    </div>
-</div> -->
-<!-- /.container-fluid -->
-<!-- <script src="<?php echo $_SESSION['home'] ?>assets/js/solicitud.js"></script> -->
-
-
-<script>
-    //     document.querySelectorAll('#clikImagen').forEach(function(btn) {
-    //     btn.addEventListener('click', function(e) {
-    //        alert("click")
-    //         // var imageSrc = this.getAttribute('href');
-    //         // Aquí puedes abrir un modal o hacer cualquier otra cosa
-    //         console.log('Abrir la imagen en modal: ' + imageSrc);
-    //     });
-    // });
-    document.getElementById("clikImagen").addEventListener("click", function(){
-             
-    })
-    </script>
-    

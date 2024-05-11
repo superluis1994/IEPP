@@ -125,8 +125,8 @@ class MenuBuilder
             <span class="mini-icon">-</span>
             </a>
          </li>',
-         $this->isActiveSubMenu("/panel"),
-         Utils::url("/panel"),
+         $this->isActiveSubMenu("/panel/home"),
+         Utils::url("/panel/home"),
          Utils::url("/panel"),
          $titulo="Menu"
         );
@@ -242,18 +242,30 @@ class MenuBuilder
         // return $respuesta=Utils::url($item['enlace']) == $this->getCurrentUrl()? "true" : "false";
         return $Rs=@$urlActual[3] == @$urlLink[2] ? "true" : "false";
     }
-    private function isActiveSubMenu($item)
-    {
+    // private function isActiveSubMenu($item)
+    // {
       
 
-    //   echo var_dump(explode("/",$item['enlace']));
-        //    $urlLink=explode("/",$item['enlace']);
-        //    $urlActual= explode("/",$this->getCurrentUrl());
-           // return $this->getCurrentUrl();
-        //    return Utils::url($item['enlace']);
-        return Utils::url($item) == $this->getCurrentUrl()? "active" : "";
-        // return $Rs=@$urlActual[3] == @$urlLink[2] ? "true" : "false";
+    // //   echo var_dump(explode("/",$item['enlace']));
+    //     //    $urlLink=explode("/",$item['enlace']);
+    //     //    $urlActual= explode("/",$this->getCurrentUrl());
+    //        // return $this->getCurrentUrl();
+    //     //    return Utils::url($item['enlace']);
+    //     return Utils::url($item) == $this->getCurrentUrl()? "active" : "";
+    //     // return $Rs=@$urlActual[3] == @$urlLink[2] ? "true" : "false";
+    // }
+    private function isActiveSubMenu($item) {
+        $currentUrlParts = explode("/", parse_url($this->getCurrentUrl(), PHP_URL_PATH));
+        $itemUrlParts = explode("/", parse_url(Utils::url($item), PHP_URL_PATH));
+    
+        // Compara las partes de la URL sin los parámetros.
+        // Por ejemplo: compara solo '/trasaccion' sin el '/2'.
+        $baseCurrentUrl = implode('/', array_slice($currentUrlParts, 0, count($itemUrlParts)));
+        $baseItemUrl = implode('/', $itemUrlParts);
+    
+        return $baseCurrentUrl == $baseItemUrl ? "active" : "";
     }
+    
     // Este método obtiene la URL actual.
     private function getCurrentUrl()
     {

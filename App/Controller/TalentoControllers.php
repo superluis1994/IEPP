@@ -13,6 +13,8 @@ use App\Models\TransaccionesModel;
 use App\Setting\AuthValidar;
 use App\Setting\MenuBuilder;
 use App\Setting\Paginacion;
+use Detection\MobileDetect;
+
 
 
 class TalentoControllers 
@@ -28,27 +30,39 @@ class TalentoControllers
       /** CREAR UNA INSTANCIA DE LOS OBJETOS */
       $this->header[1] = "Talento";
       $this->paginas = 6;
-      $this->limited = 6;
+      $this->limited =6;
       $this->Menu = new MenuBuilder();
       $this->talentoModel = new TalentoModel();
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
 
+    // Crear una instancia de Mobile_Detect
+         $detect = new MobileDetect;
+
+         // Uso de los métodos de Mobile_Detect para detectar dispositivos
+         if ($detect->isMobile() || $detect->isTablet()) {
+            $this->limited = 6;
+            $this->paginas = 6;
+         } 
+         // elseif ($detect->isTablet()) {
+         //    echo "Accedido desde una tablet.";
+         // } else {
+         //    echo "Accedido desde un PC o un dispositivo no móvil.";
+         // }
       // echo var_dump($_SESSION["datos"]);
    }
    public function home()
    {
+      $Tipo=1;
       /** VALIDACION SI EL USUARIO ESTA LOGUEADO O SI NO REDIRECCIONA */
       if (!SessionManager::isUserLoggedIn()) {
          header('Location:' . Utils::url("/Auth"));
          exit;
       }
-     
-      /** GENERAR EL HTML DEL MENÚ */
-      $menuHtml = $this->Menu->buildMenu();
+   
 
      /** OBTENER LOS REGITROS DE LOS TALENTOS */
-       $GetRegistros=$this->talentoModel->getAll($_SESSION["datos"][0]["id_directiva"],NULL,$this->limited);
-       $count=$this->talentoModel->getAllCount($_SESSION["datos"][0]["id_directiva"],"INGRESO");
+       $GetRegistros=$this->talentoModel->getAll($_SESSION["datos"][0]["id_directiva"],$Tipo,NULL,$this->limited);
+       $count=$this->talentoModel->getAllCount($_SESSION["datos"][0]["id_directiva"],$Tipo);
        $paginacion =  new Paginacion($count[0]["total"], $this->limited, $this->paginas, 1, "");
        $pag = $paginacion->createLink("pagination justify-content-center");
       //  echo var_dump($GetRegistros);
@@ -59,29 +73,34 @@ class TalentoControllers
          "icono" => Utils::assets('Img/panel/cpanel.svg'),
          "titulo" => "PANEL | Home",
          "posicion"=>"TALENTO",
-         "menu" => $menuHtml,
          "data" => $GetRegistros,
          "paginacion"=>$pag,
+         "trasaccionTipo"=>$Tipo,
          "url" => [
+            "trasaccion" => Utils::url('/panel/adm/talento/paginacion'),
             "cerrarSesion" => Utils::url('/panel/salir'),
             // "resetPassword"=>Utils::url('/Auth/reset')
          ]
       ];
       return Utils::viewPanel("Panel.{$_SESSION['datos'][0]['tipoUser']}.talento", $data);
    }
+   public function paginacion($pag){
+
+   echo $pag;
+     
+   }
    public function Busqueda()
    {
-
+      $Tipo=1;
       
       /** VALIDACION SI EL USUARIO ESTA LOGUEADO O SI NO REDIRECCIONA */
       if (!SessionManager::isUserLoggedIn()) {
          header('Location:' . Utils::url("/Auth"));
          exit;
       }
-   
-     
-      /** GENERAR EL HTML DEL MENÚ */
-      $menuHtml = $this->Menu->buildMenu();
+      if(isset($_POST["Tipo"])) {
+         $Tipo=$_POST["Tipo"];
+      }
 
      /** OBTENER LOS REGITROS DE LOS TALENTOS */
        $GetRegistros=$this->talentoModel->getAll($_SESSION["datos"][0]["id_directiva"],NULL,$this->limited);
@@ -95,7 +114,6 @@ class TalentoControllers
          "status" => "success",
          "icono" => Utils::assets('Img/panel/cpanel.svg'),
          "titulo" => "PANEL | Home",
-         "menu" => $menuHtml,
          "data" => $GetRegistros,
          "paginacion"=>$pag,
          "url" => [

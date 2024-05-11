@@ -98,24 +98,6 @@
                                        <input type="text" class="form-control" name="telefono" id="phone" placeholder=" " required>
                                     </div>
                                  </div>
-                                 <div class="col-lg-6">
-                                  <div class="form-group">
-                                 <label class="form-label">Tipo Directiva</label>
-                                 <select class="form-select mb-3 shadow-none" name="directiva" required>
-
-                                    <option selected="">Open this select menu</option>
-                                 <?php
-                                 // echo var_dump($data["selected"]);
-                                       foreach ($data["selected"] as $key=>$value) {
-                                         echo  sprintf("<option value='%s'>%s</option>",
-                                         $value["id"],
-                                         $value["nombre"]
-                                       );
-                                       }
-                                 ?>
-                                 </select>
-                              </div>
-                                 </div>
                              
                                  <div class="col-lg-12 d-flex justify-content-center">
                                     <div class="form-check mb-3">

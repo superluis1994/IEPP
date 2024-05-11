@@ -59,7 +59,7 @@
 
   .table-fixed tbody {
     display: block;
-    max-height: 330px;
+    max-height: 480px;
     overflow-y: scroll;
   }
 
