@@ -18,5 +18,6 @@ jobs:
           ftp-server: ftp://ftpupload.net
           ftp-username: ${{ secrets.FTP_USERNAME }}
           ftp-password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./htdocs
+          local-dir: ./
           git-ftp-args: --auto-init
+
