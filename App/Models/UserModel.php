@@ -46,7 +46,7 @@ class UserModel
                                     INNER JOIN directiva drt ON drt.id_directiva = dr.id_directiva
                                     INNER JOIN tipo_directiva  td ON td.id_tipo_directiva = drt.id_tipo_directiva
                                     INNER JOIN tipo_de_usuario tus ON tus.id_tipo_usuario = cg.tipo_usuario
-                                    WHERE cg.usuario = :USUARIO;");
+                                    WHERE cg.usuario = :USUARIO  AND drt.status = 1;");
                                     $stmt->bindParam(":USUARIO", $data["usuario"], PDO::PARAM_STR);
                                     $stmt->execute();
                                     return $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -98,6 +98,10 @@
                                        <input type="text" class="form-control" name="telefono" id="phone" placeholder=" " required>
                                     </div>
                                  </div>
+                                 <?php 
+                                    $url=$utils->ArrayUrl();
+                                    if($url[3] == $_ENV["DIRECTIVO"]){
+                                       ?>
                                  <div class="col-lg-6">
                                   <div class="form-group">
                                  <label class="form-label">Tipo Directiva</label>
@@ -106,20 +110,24 @@
                                     <option selected="">Open this select menu</option>
                                  <?php
                                  // echo var_dump($data["selected"]);
-                                       foreach ($data["selected"] as $key=>$value) {
-                                         echo  sprintf("<option value='%s'>%s</option>",
-                                         $value["id"],
-                                         $value["nombre"]
-                                       );
+                                 foreach ($data["selected"] as $key=>$value) {
+                                    echo  sprintf("<option value='%s'>%s</option>",
+                                    $value["id"],
+                                    $value["nombre"]
+                                 );
                                        }
                                  ?>
                                  </select>
                               </div>
                                  </div>
                              
+                                 
+                                       <?php 
+                                  }
+                                 ?>
                                  <div class="col-lg-12 d-flex justify-content-center">
                                     <div class="form-check mb-3">
-                                       <input type="checkbox" class="form-check-input" name="terminos" id="customCheck1" required>
+                                       <input type="checkbox" class="form-check-input" checked name="terminos" id="customCheck1" required>
                                        <label class="form-check-label" for="customCheck1">Estoy de acuerdo con los términos de uso</label>
                                     </div>
                                  </div>

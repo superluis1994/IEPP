@@ -37,6 +37,7 @@ class PanelControllers extends Token
       $this->Encrypto = new Encryptar($_ENV["JWT_SECRET_KEY"]);
       $this->inyecciones = new AntiInyeciones;
       $this->transaccionesModel= new TransaccionesModel;
+    
    }
    public function home()
    {
@@ -48,11 +49,11 @@ class PanelControllers extends Token
          exit;
       }
 
-      if($_SESSION["datos"][0]["tipoUser"] == "Cristiano"){
-         SessionManager::logoutUser();
-         return Utils::view("Error.maintenance", $data=[], $this->header);
-        exit;
-      }
+      // if($_SESSION["datos"][0]["tipoUser"] == "Cristiano"){
+      //    SessionManager::logoutUser();
+      //    return Utils::view("Error.maintenance", $data=[], $this->header);
+      //   exit;
+      // }
 
       $select=$this->EntradasModel->getAll();
       

@@ -15,7 +15,11 @@ Route::group('/Auth', function () {
     // Route::get('/', "EjemploControllers@index");
 });
 Route::group('/SignUp', function () {
-    Route::get('', "SignUpControllers@home");
-    Route::get('/', "SignUpControllers@home");
-    Route::get('/Registrarse', "SignUpControllers@Registrarse");
+    // Route::get('{id}', "SignUpControllers@home");
+    Route::get("/op/".$_ENV["HERMANO"], "SignUpControllers@Rg_hermano");
+    Route::get('/op/Rg-23456346', "SignUpControllers@Rg_Directivo");
+    Route::get('/op/Rg-23232323', "SignUpControllers@Rg_Admin");
+    Route::get('/{id}', "SignUpControllers@home");
+    // Route::get('/Rg-hermano', "SignUpControllers@Rg_hermano");
+    // Route::get('/Rg-directivo2024', "SignUpControllers@Rg_hermano");
 });

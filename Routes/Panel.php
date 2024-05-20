@@ -34,3 +34,12 @@ Route::group('/panel/adm/talento', function () {
     // Route::post('/trasaccion/{tipo}',"TalentoControllers@home");
     Route::post('/paginacion',"TalentoControllers@home");
 });
+Route::group('/panel/mantenimiento/directivas', function () {
+    Route::get('',"DirectivasControllers@home");
+    Route::get('/',"DirectivasControllers@home");
+    Route::get('/add',"DirectivasControllers@home");
+    // Route::post('/trasaccion/{tipo}',"DirectivasControllers@home");
+    Route::post('/paginacion',"DirectivasControllers@home");
+
+
+});

@@ -21,6 +21,11 @@ class Utils
         $url = preg_replace('#/+#', '/', $url);
         return $url;
     }
+    static function ArrayUrl()
+    {
+        $url = explode('/', $_SERVER['REQUEST_URI']);
+        return $url;
+    }
 
     // Esta carga la view unicas que no tienen vista internas 
     static function view($path = "", $data = [] ,$header)

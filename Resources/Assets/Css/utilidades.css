@@ -269,3 +269,34 @@ legend.scheduler-border {
       /* Máximo ancho de la imagen */
   }
 /** FINAL ESTILOS DE LA MODAL IMAGEN FULL*/
+
+
+
+    /* Estilos para el ítem seleccionado */
+.active-card {
+  background-color: #007bff; /* Color de fondo azul de Bootstrap */
+  color: white; /* Texto en color blanco para mejor contraste */
+  border: 2px solid #0056b3; /* Borde más oscuro para resaltar */
+}
+
+/* Estilos para el texto dentro del ítem seleccionado para garantizar que sea visible */
+
+/* Opcional: una sombra para dar la impresión de que el ítem está elevado */
+.active-card {
+  box-shadow: 0 4px 8px rgba(235, 165, 3, 0.5); /* Sombra azul suave */
+}
+
+/* Estilo para revertir al color normal cuando el ítem no está seleccionado */
+.swiper-slide {
+  background-color: #f8f9fa; /* Color de fondo estándar */
+  color: black; /* Color de texto estándar */
+  border: 1px solid #dee2e6; /* Borde estándar */
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Transición suave para los cambios de estado */
+}
+
+/* Estilos para los enlaces dentro de los ítems para que coincidan con el estado seleccionado */
+.swiper-slide a {
+  color: inherit; /* Hereda el color del elemento padre */
+  text-decoration: none; /* No muestra subrayado en los enlaces */
+}
+

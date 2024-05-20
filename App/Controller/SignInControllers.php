@@ -35,7 +35,7 @@ class SignInControllers extends Token
          header('Location:'.Utils::url("/panel"));
          exit;
       }
-
+      // echo @$Dbpasword= $this->Encrypto->decrypt("/AZRbOrfWPcI/yaD4fZE+Yl3DcQFceMVmIfbvtFipzI=");
       $data=[
          "status"=>"success",
          "icono"=>Utils::assets('Img/auth/ico.png'),
@@ -59,10 +59,11 @@ class SignInControllers extends Token
          "data" =>""
       ];
 
-        $dui = $this->inyecciones->cleanString($_POST['dui']);
-       $FrondPassword = $this->inyecciones->cleanString($_POST['password']);
+      $dui = $this->inyecciones->cleanString($_POST['dui']);
+      $FrondPassword = $this->inyecciones->cleanString($_POST['password']);
       $respuesta = $this->UserModel->validateUser(["usuario"=>$dui]);
       @$Dbpasword= $this->Encrypto->decrypt($respuesta[0]["passwor"]);
+      
       
       if(count($respuesta)>0){
           if($FrondPassword == $Dbpasword){

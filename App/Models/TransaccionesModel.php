@@ -60,33 +60,81 @@ class TransaccionesModel
     // return $result;
     // }
 
+
     public function salidaDinero($tipo_entrada)
 {
-    // Asumir que conocemos las claves y que corresponden a los parámetros del procedimiento
-    $placeholders = implode(", ", array_map(function($key) {
-        return ":" . $key;
-    }, array_keys($tipo_entrada)));
+    try {
+        // Iniciar la transacción
+        $this->db->beginTransaction();
 
-    // SQL del procedimiento almacenado con placeholders dinámicos
-    $sql = "CALL VerificarYRegistrarTransaccionSalida($placeholders, @transaccion_exitosa)";
+        // Calcular el capital disponible
+        $query = "SELECT 
+            (SUM(CASE WHEN id_tipo_transacion = 1 THEN monto ELSE 0 END) - 
+            SUM(CASE WHEN id_tipo_transacion = 2 THEN monto ELSE 0 END)) AS capital_disponible
+        FROM transacciones
+        WHERE id_tipo_entrada = :id_tipo_entrada";
 
-    // Preparar la llamada al procedimiento almacenado
-    $stmt = $this->db->prepare($sql);
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id_tipo_entrada', $tipo_entrada['p_id_tipo_entrada']);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $capital_disponible = $result['capital_disponible'];
 
-    // Vincular dinámicamente los parámetros usando un bucle foreach
-    foreach ($tipo_entrada as $param => $value) {
-        $stmt->bindParam(':'.$param, $tipo_entrada[$param]);
+        // Verificar si la transacción de salida es posible
+        if ($capital_disponible >= $tipo_entrada['monto']) {
+            // Preparar la inserción de la nueva transacción
+            $insertSQL = "INSERT INTO transacciones (monto, comentario, id_realizada_por, id_tipo_transacion, id_tipo_entrada, id_directiva, usuario_creacion) 
+            VALUES (:monto, :comentario, :id_realizada_por, :id_tipo_transacion, :id_tipo_entrada, :id_directiva, :usuario_creacion)";
+            $insertStmt = $this->db->prepare($insertSQL);
+            $insertStmt->execute($tipo_entrada);
+
+            // Verificar si la inserción fue exitosa
+            if ($insertStmt->rowCount() > 0) {
+                $this->db->commit();
+                return ['transaccionExitosa' => true];
+            } else {
+                $this->db->rollBack();
+                return ['transaccionExitosa' => false];
+            }
+        } else {
+            $this->db->rollBack();
+            return ['transaccionExitosa' => false];
+        }
+    } catch (Exception $e) {
+        // En caso de error, hacer rollback y manejar la excepción
+        $this->db->rollBack();
+        throw $e;
     }
-
-    // Ejecutar la llamada al procedimiento almacenado
-    $stmt->execute();
-
-    // Obtener el resultado de la operación
-    $result = $this->db->query("SELECT @transaccion_exitosa AS transaccionExitosa")->fetch(PDO::FETCH_ASSOC);
-
-    // Devolver el resultado
-    return $result;
 }
+
+
+//     public function salidaDinero($tipo_entrada)
+// {
+//     // Asumir que conocemos las claves y que corresponden a los parámetros del procedimiento
+//     $placeholders = implode(", ", array_map(function($key) {
+//         return ":" . $key;
+//     }, array_keys($tipo_entrada)));
+
+//     // SQL del procedimiento almacenado con placeholders dinámicos
+//     $sql = "CALL VerificarYRegistrarTransaccionSalida($placeholders, @transaccion_exitosa)";
+
+//     // Preparar la llamada al procedimiento almacenado
+//     $stmt = $this->db->prepare($sql);
+
+//     // Vincular dinámicamente los parámetros usando un bucle foreach
+//     foreach ($tipo_entrada as $param => $value) {
+//         $stmt->bindParam(':'.$param, $tipo_entrada[$param]);
+//     }
+
+//     // Ejecutar la llamada al procedimiento almacenado
+//     $stmt->execute();
+
+//     // Obtener el resultado de la operación
+//     $result = $this->db->query("SELECT @transaccion_exitosa AS transaccionExitosa")->fetch(PDO::FETCH_ASSOC);
+
+//     // Devolver el resultado
+//     return $result;
+// }
 
     public function getAll()
     {
